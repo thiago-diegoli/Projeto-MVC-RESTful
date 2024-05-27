@@ -1,0 +1,33 @@
+{
+  "name": "projetomvcrestful",
+  "version": "1.0.0",
+  "description": "Projeto Interdisciplinar MVC RESTful da Fatec",
+  "main": "app.js",
+  "type": "module",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "node app.js",
+    "dev": "nodemon app.js"
+  },
+  "keywords": [
+    "MVC",
+    "RESTful",
+    "Node"
+  ],
+  "author": "Thiago Diegoli",
+  "license": "MIT",
+  "dependencies": {
+    "bcrypt": "^5.1.1",
+    "bcryptjs": "^2.4.3",
+    "body-parser": "^1.20.2",
+    "dotenv": "^16.4.5",
+    "ejs": "^3.1.10",
+    "express": "^4.19.2",
+    "express-validator": "^7.1.0",
+    "jsonwebtoken": "^9.0.2",
+    "mongoose": "^8.4.0"
+  },
+  "devDependencies": {
+    "nodemon": "^3.1.1"
+  }
+}

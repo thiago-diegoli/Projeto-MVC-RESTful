@@ -1,0 +1,47 @@
+@baseURL = http://localhost:4000/api/products
+
+
+GET {{baseURL}}/?limit=3&skip=0
+Content-Type: application/json
+access-token: 
+
+###
+GET {{baseURL}}/id/6626f488d60c4529f354953e
+Content-Type: application/json
+access-token: 
+
+###
+POST {{baseURL}}
+Content-Type: application/json
+access-token: 
+
+{
+    "nome": "Caneta Esferografica Azul",
+    "quantidade": 2,
+    "preco": 5.00,
+    "descricao": "Caneta Esferografica Azul",
+    "data": "2024-04-11T23:25:05.852Z"
+}
+
+###
+DELETE {{baseURL}}/6639171fda80f9cc4adaa803
+Content-Type: application/json
+access-token:
+
+###
+PUT {{baseURL}}
+Content-Type: application/json
+access-token:
+
+{
+    "_id": "6623bcd6c7fb6560f205bd46",
+    "nome": "Caneta Esferografica Vermelha",
+    "quantidade": 2,
+    "preco": 5.05,
+    "descricao": "Caneta Esferografica Vermelha",
+    "data": "2024-04-11T23:25:05.852Z"
+}
+###
+GET {{baseURL}}/filtros/?qtdMin=1&qtdMax=4&precoMin=40&precoMax=50
+Content-Type: application/json
+access-token:
