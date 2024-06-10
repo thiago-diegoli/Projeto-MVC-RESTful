@@ -1,12 +1,12 @@
 <app-header-client></app-header-client>
-<div class="p-4 mx-auto max-w-5xl mt-24 mb-14">
+<div class="p-4 mx-auto max-w-5xl pt-28 mb-14">
   <div class="relative overflow shadow-md sm:rounded-lg">
     <div class="flex flex-wrap mb-2">
       <h2 class="mb-4 text-2xl font-semibold leading-none tracking-tight text-gray-900 md:text-2xl lg:text-3xl">Históricos dos produtos requisitados</h2>
       <div class="ml-96 relative inline-block text-left">
         <button (click)="toggleFiltro()" id="filterButton" class="inline-flex items-center px-5 py-2.5 mt-4 sm:mt-6 text-sm font-medium text-center text-white bg-blue-600 rounded-lg focus:ring-4 focus:ring-blue-100" aria-expanded="true" aria-haspopup="true">
             Filtrar &nbsp;
-            <svg class="w-4 h-4 text-gray-800 text-white" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 20 20">
+            <svg class="w-4 h-4 text-white" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 20 20">
               <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M7.75 4H19M7.75 4a2.25 2.25 0 0 1-4.5 0m4.5 0a2.25 2.25 0 0 0-4.5 0M1 4h2.25m13.5 6H19m-2.25 0a2.25 2.25 0 0 1-4.5 0m4.5 0a2.25 2.25 0 0 0-4.5 0M1 10h11.25m-4.5 6H19M7.75 16a2.25 2.25 0 0 1-4.5 0m4.5 0a2.25 2.25 0 0 0-4.5 0M1 16h2.25"/>
           </svg>
         </button>
@@ -199,7 +199,7 @@
                       <a (click)="editar()" class="cursor-pointer block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100">Editar</a>
                     </li>
                     <li>
-                      <a (click)="cancelar()" class="cursor-pointer block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100">Cancelar pedido</a>
+                      <a (click)="cancelar(product)" class="cursor-pointer block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100">Cancelar pedido</a>
                     </li>
                   </ng-container>
                 </ul>

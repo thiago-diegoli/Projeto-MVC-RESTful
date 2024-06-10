@@ -103,14 +103,14 @@ export const deleteProduct = async (req, res) => {
       return res.status(403).json({ message: 'Só é permitido excluir produtos com status Pendente' });
     }
 
-    await Product.findByIdAndDelete(productId);
+    const result = await Product.findByIdAndDelete(productId);
     res.status(200).json(result);
   } catch (err) {
     res.status(500).json({ message: 'Erro ao excluir o produto', error: err.message });
   }
 };
 
-/* export const updateProduct = async (req, res) => {
+export const updateProduct = async (req, res) => {
   const idDocumento = req.body._id;
   delete req.body._id;
 
@@ -119,15 +119,21 @@ export const deleteProduct = async (req, res) => {
     if (!errors.isEmpty()) {
       return res.status(400).json({ errors: errors.array() });
     }
-    const product = await Product.findByIdAndUpdate(idDocumento, req.body, { new: true });
+    const product = await Product.findById(idDocumento);
     if (!product) {
       return res.status(404).json({ message: 'Produto não encontrado' });
     }
+
+    if (product.userId.toString() !== req.user.userId.toString()) {
+      return res.status(403).json({ message: 'Você não tem permissão para atualizar este produto' });
+    }
+
+    await Product.findByIdAndUpdate(idDocumento, req.body, { new: true });
     res.status(202).json(product);
   } catch (err) {
     res.status(500).json({ message: 'Erro no servidor', error: err.message });
   }
-}; */
+};
 
 export const updateProductStatus = async (req, res) => {
   try {

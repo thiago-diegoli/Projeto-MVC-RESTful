@@ -193,7 +193,7 @@ export class HistoricComponent implements OnInit {
   fillEditForm(product: any) {
     const form = document.getElementById('editForm') as HTMLFormElement;
     if (form) {
-      (form.elements.namedItem('editId') as HTMLInputElement).value = product.id;
+      (form.elements.namedItem('editId') as HTMLInputElement).value = product._id;
       (form.elements.namedItem('editNome') as HTMLInputElement).value = product.nome;
       (form.elements.namedItem('editQuantidade') as HTMLInputElement).value = product.quantidade;
       (form.elements.namedItem('editDescricao') as HTMLTextAreaElement).value = product.descricao;
@@ -209,7 +209,8 @@ export class HistoricComponent implements OnInit {
     }
   }
 
-  cancelar() {
+  cancelar(product: any) {
+    this.selectedProduct = product;
     this.openCancelModal();
   }
 
@@ -222,28 +223,45 @@ export class HistoricComponent implements OnInit {
   }
 
   editarProduto() {
-    // Implementa a lógica de edição do produto aqui
-    console.log('Produto editado:', {
-      id: (document.getElementById('editId') as HTMLInputElement).value,
+    const productData = {
+      _id: (document.getElementById('editId') as HTMLInputElement).value,
       nome: (document.getElementById('editNome') as HTMLInputElement).value,
-      tipo: (document.getElementById('editTipo') as HTMLSelectElement).value,
-      quantidade: (document.getElementById('editQuantidade') as HTMLInputElement).value,
-      categoria: (document.getElementById('editCategoria') as HTMLSelectElement).value,
+      tipo: (document.getElementById('editTipo') as HTMLInputElement).value,
+      quantidade: +(document.getElementById('editQuantidade') as HTMLInputElement).value,
+      categoria: (document.getElementById('editCategoria') as HTMLInputElement).value,
       descricao: (document.getElementById('editDescricao') as HTMLTextAreaElement).value
-    });
-    this.closeEditModal();
+    };
+
+    this.productService.updateProduct(productData).subscribe(
+      response => {
+        this.closeEditModal();
+        this.getProducts();
+      },
+      error => {
+        console.error('Erro ao atualizar o produto', error);
+      }
+    );
   }
 
   confirmarCancelamento() {
-    // Implementa a lógica de cancelamento aqui
-    console.log('Cancelamento confirmado para o produto:', this.selectedProduct);
-    this.closeCancelModal();
+    if (this.selectedProduct) {
+      this.productService.deleteProduct(this.selectedProduct._id).subscribe(
+        response => {
+          this.getProducts();
+          this.closeCancelModal();
+        },
+        error => {
+          console.error('Erro ao deletar o produto:', error);
+          this.closeCancelModal();
+        }
+      );
+    }
   }
 
   verDetalhes() {
 
   }
   verJustificativa() {
-    
+
   }
 }

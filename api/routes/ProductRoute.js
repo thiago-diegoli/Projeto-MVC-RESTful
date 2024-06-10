@@ -5,7 +5,7 @@ import {
   // getProductsByFilters,
   createProduct,
   deleteProduct,
-  // updateProduct,
+  updateProduct,
   updateProductStatus,
   getProductsByFilters
 } from '../controllers/ProductController.js';
@@ -20,10 +20,11 @@ router.get('/products', getProductsByFilters);
 // router.get('/filtros/', auth, getProductsByFilters);
 router.post('/', auth, validaProduto, createProduct);
 router.delete('/:id', auth, deleteProduct);
+router.put('/', auth, validaProduto, updateProduct);
 
 // Rotas que precisam de permissão de administrador
 router.get('/all', authAdmin, getProducts);
-router.put('/', authAdmin, validaProduto, updateProductStatus);
+router.put('/aprove', authAdmin, validaProduto, updateProductStatus);
 
 
 export default router;
