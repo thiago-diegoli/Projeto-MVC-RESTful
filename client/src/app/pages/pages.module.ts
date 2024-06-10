@@ -6,18 +6,20 @@ import { RegisterComponent } from './register/register.component';
 import { LayoutModule } from './../layout/layout.module';
 import { RouterModule } from '@angular/router';
 import { RequisitionsComponent } from './requisitions/requisitions.component';
+import { HistoricComponent } from './historic/historic.component';
 
 @NgModule({
   declarations: [
     LoginComponent,
     RegisterComponent,
-    RequisitionsComponent
+    RequisitionsComponent,
+    HistoricComponent
    ],
   imports: [
     CommonModule,
     LayoutModule,
     RouterModule,
-    FormsModule,
+    FormsModule
   ],
   exports: [
     LoginComponent,

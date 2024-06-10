@@ -1,4 +1,5 @@
 import { Component } from '@angular/core';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-header-client',
@@ -6,5 +7,11 @@ import { Component } from '@angular/core';
   styleUrl: './header-client.component.css'
 })
 export class HeaderClientComponent {
+  constructor(private router: Router) { }
 
+  fazerLogout() {
+    localStorage.removeItem('access_token');
+
+    this.router.navigate(['/']);
+  }
 }

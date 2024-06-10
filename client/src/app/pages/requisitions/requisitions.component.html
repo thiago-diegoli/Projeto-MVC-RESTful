@@ -1,19 +1,34 @@
 <app-header-client></app-header-client>
-<section class="bg-white mt-12">
+<section class="bg-white mt-12 mb-14">
     <div class="py-16 px-4 mx-auto max-w-2xl">
         <h2 class="mb-4 text-xl font-bold text-gray-900">Faça a requisição do produto desejado</h2>
         <form id="requisicao">
             <div>
+              <div class="flex flex-wrap mb-2">
+                <div class="w-full md:w-3/5 md:pr-3 lg:pr-3 mb-6 md:mb-0">
+                    <label for="nome" class="block mb-2 text-sm font-medium text-gray-900">Nome*</label>
+                    <input type="text" name="nome" id="nome" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5" placeholder="Digite o nome do produto">
+                </div>
+                <div class="w-full md:w-2/5 md:pl-3 lg:pl-3 mb-6 md:mb-0">
+                  <label for="tipo" class="block text-sm font-medium text-gray-700 mb-2 ">Tipo*</label>
+                  <select id="tipo" name="tipo" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5" (change)="onTipoChange($event)">
+                    <option value="material-de-consumo">Material de Consumo</option>
+                    <option value="material-permanente">Material Permanente</option>
+                    <option value="hibrido">Híbrido</option>
+                    <option value="nao-sei">Não sei (Pesquisar na BEC)</option>
+                  </select>
+                </div>
+             </div>
                 <label for="default-search" class="mb-2 text-sm font-medium text-gray-900 sr-only">Search</label>
-                <div class="relative my-4">
-                    <div class="absolute inset-y-0 start-0 flex items-center ps-3 pointer-events-none">
-                        <svg class="w-4 h-4 text-gray-500" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 20 20">
-                            <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="m19 19-4-4m0-7A7 7 0 1 1 1 8a7 7 0 0 1 14 0Z"/>
-                        </svg>
-                    </div>
-                    <input type="search" id="produtoDesejadoInput" class="block w-full p-4 ps-10 text-sm text-gray-900 border border-gray-300 rounded-lg bg-gray-50 focus:ring-blue-500 focus:border-blue-500" placeholder="Pesquisar produto" />
-                    <ul id="sugestoes" class="absolute top-full left-0 z-10 bg-white border border-gray-300 rounded-lg shadow-md mt-2 w-full hidden"></ul>
-                    <button type="button" id="pesquisarItem" class="text-white absolute end-2.5 bottom-2.5 bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-4 py-2">Pesquisar</button>
+                <div *ngIf="mostrarPesquisaBec" id="pesquisaBec" class="relative my-4">
+                  <div class="absolute inset-y-0 start-0 flex items-center ps-3 pointer-events-none">
+                    <svg class="w-4 h-4 text-gray-500" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 20 20">
+                      <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="m19 19-4-4m0-7A7 7 0 1 1 1 8a7 7 0 0 1 14 0Z"/>
+                    </svg>
+                  </div>
+                  <input type="search" id="produtoDesejadoInput" class="block w-full p-4 ps-10 text-sm text-gray-900 border border-gray-300 rounded-lg bg-gray-50 focus:ring-blue-500 focus:border-blue-500" placeholder="Digite o nome do produto" />
+                  <ul id="sugestoes" class="absolute top-full left-0 z-10 bg-white border border-gray-300 rounded-lg shadow-md mt-2 w-full hidden"></ul>
+                  <button type="button" id="pesquisarItem" class="text-white absolute end-2.5 bottom-2.5 bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-4 py-2">Pesquisar</button>
                 </div>
                 <div id="informacoes" class="flex flex-col w-full leading-1.5 p-4 mb-2 border-blue-200 border bg-blue-100 rounded-xl text-sm hidden">
                     <p class="font-semibold">Informações do produto</p>
@@ -22,17 +37,36 @@
                 </div>
                 <div class="flex flex-wrap">
                     <div class="w-full md:w-1/2 md:pr-3 lg:pr-3 mb-6 md:mb-0">
-                        <label for="quantidade" class="block mb-2 text-sm font-medium text-gray-900">Quantidade</label>
-                        <input type="number" name="quantidade" id="quantidade" min="1"  class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5" placeholder="Quantidade do produto">
+                        <label for="quantidade" class="block mb-2 text-sm font-medium text-gray-900">Quantidade*</label>
+                        <input type="number" name="quantidade" id="quantidade" min="1"  class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5" placeholder="Digite a quantidade que precisa">
                     </div>
                     <div class="w-full md:w-1/2 md:pl-3 lg:pl-3 mb-6 md:mb-0">
-                        <label for="preco" class="block mb-2 text-sm font-medium text-gray-900">Preço</label>
-                        <input type="number" name="preco" step="0.01" id="preco" min="1"  class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5" placeholder="Preço do produto">
+                      <label for="categoria" class="block text-sm font-medium text-gray-700 mb-2 ">
+                        Categoria*
+                      </label>
+                      <select id="categoria" name="categoria" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5">
+                        <option value="material-de-escritorio">Material de Escritório</option>
+                        <option value="equipamentos-de-informatica">Equipamentos de Informática</option>
+                        <option value="material-de-limpeza">Material de Limpeza</option>
+                        <option value="materiais-didaticos-pedagogicos">Materiais Didáticos e Pedagógicos</option>
+                        <option value="material-de-escritorio-especializado">Material de Escritório Especializado</option>
+                        <option value="equipamentos-de-laboratorio">Equipamentos de Laboratório</option>
+                        <option value="material-de-construcao-manutencao">Material de Construção e Manutenção</option>
+                        <option value="moveis-equipamentos">Móveis e Equipamentos</option>
+                        <option value="material-de-higiene-saude">Material de Higiene e Saúde</option>
+                        <option value="materiais-para-eventos-projetos-especiais">Materiais para Eventos e Projetos Especiais</option>
+                        <option value="materiais-esportivos-educacao-fisica">Materiais Esportivos e de Educação Física</option>
+                        <option value="recursos-tecnologicos-multimidia">Recursos Tecnológicos e Multimídia</option>
+                        <option value="material-de-arte-design">Material de Arte e Design</option>
+                        <option value="material-de-jardinagem-paisagismo">Material de Jardinagem e Paisagismo</option>
+                        <option value="material-de-seguranca-prevencao">Material de Segurança e Prevenção</option>
+                        <option value="outro">Outro</option>
+                      </select>
                     </div>
                 </div>
                 <div class="sm:col-span-2 mt-4">
                     <label for="description" class="block mb-2 text-sm font-medium text-gray-900">Descrição</label>
-                    <textarea id="description" rows="8"  class="resize-none block p-2.5 w-full text-sm text-gray-900 bg-gray-50 rounded-lg border border-gray-300 focus:ring-blue-400 focus:border-blue-400" placeholder="Descrição da requisição"></textarea>
+                    <textarea id="description" rows="8"  class="resize-none block p-2.5 w-full text-sm text-gray-900 bg-gray-50 rounded-lg border border-gray-300 focus:ring-blue-400 focus:border-blue-400" placeholder="Especifique a finalidade, qual modelo, cor, tamanho etc."></textarea>
                 </div>
             </div>
             <div class="flex items-center justify-center sm:place-items-start sm:justify-normal">

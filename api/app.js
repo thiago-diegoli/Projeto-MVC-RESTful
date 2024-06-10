@@ -4,6 +4,7 @@ import dotenv from 'dotenv';
 import { connectToDatabase } from './utils/mongodb.js';
 import LoginRoute from './routes/LoginRoute.js';
 import productRoutes from './routes/ProductRoute.js';
+import cors from 'cors';
 
 dotenv.config();
 
@@ -11,6 +12,8 @@ const app = express();
 
 // Conectar ao MongoDB
 connectToDatabase();
+
+app.use(cors());
 
 // Middlewares
 app.use(bodyParser.json());

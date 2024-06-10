@@ -6,5 +6,10 @@ import { Component } from '@angular/core';
   styleUrl: './requisitions.component.css'
 })
 export class RequisitionsComponent {
+  mostrarPesquisaBec = false;
 
+  onTipoChange(event: Event): void {
+    const selectElement = event.target as HTMLSelectElement;
+    this.mostrarPesquisaBec = selectElement.value === 'não-sei';
+  }
 }

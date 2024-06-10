@@ -1,0 +1,345 @@
+<app-header-client></app-header-client>
+<div class="p-4 mx-auto max-w-5xl mt-24 mb-14">
+  <div class="relative overflow shadow-md sm:rounded-lg">
+    <div class="flex flex-wrap mb-2">
+      <h2 class="mb-4 text-2xl font-semibold leading-none tracking-tight text-gray-900 md:text-2xl lg:text-3xl">Históricos dos produtos requisitados</h2>
+      <div class="ml-96 relative inline-block text-left">
+        <button (click)="toggleFiltro()" id="filterButton" class="inline-flex items-center px-5 py-2.5 mt-4 sm:mt-6 text-sm font-medium text-center text-white bg-blue-600 rounded-lg focus:ring-4 focus:ring-blue-100" aria-expanded="true" aria-haspopup="true">
+            Filtrar &nbsp;
+            <svg class="w-4 h-4 text-gray-800 text-white" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 20 20">
+              <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M7.75 4H19M7.75 4a2.25 2.25 0 0 1-4.5 0m4.5 0a2.25 2.25 0 0 0-4.5 0M1 4h2.25m13.5 6H19m-2.25 0a2.25 2.25 0 0 1-4.5 0m4.5 0a2.25 2.25 0 0 0-4.5 0M1 10h11.25m-4.5 6H19M7.75 16a2.25 2.25 0 0 1-4.5 0m4.5 0a2.25 2.25 0 0 0-4.5 0M1 16h2.25"/>
+          </svg>
+        </button>
+
+        <!-- Filter Dropdown -->
+        <div [ngClass]="{'hidden': !filtroVisivel}" class="hidden origin-top-right absolute right-0 mt-2 w-72 rounded-md shadow-lg bg-white ring-1 ring-black ring-opacity-5 divide-y divide-gray-100" role="menu" aria-orientation="vertical" aria-labelledby="filterButton">
+            <div class="py-1" role="none">
+                <!-- Filtro por Nome -->
+                <div class="px-4 mt-2">
+                    <label for="nome" class="block text-sm font-medium text-gray-700">Nome</label>
+                    <input type="text" name="nome" id="nome" class="my-2 bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5" placeholder="Digite o nome do produto">
+                </div>
+
+                <!-- Filtro por Status -->
+                <div class="px-4 py-3">
+                    <span class="block text-sm font-medium text-gray-700">Status</span>
+                    <div class="mt-2 space-y-2">
+                        <div class="flex items-center">
+                            <input id="todos" name="status" type="radio" value="" class="focus:ring-indigo-500 h-4 w-4 text-indigo-600 border-gray-300" checked>
+                            <span class="ml-3 flex items-center text-sm font-medium text-gray-500">
+                              <span class="bg-blue-300 w-3 h-3 me-3 rounded-full"></span>
+                              Todos
+                            </span>
+                        </div>
+                        <div class="flex items-center">
+                            <input id="pendente" name="status" type="radio" value="pendente" class="focus:ring-indigo-500 h-4 w-4 text-indigo-600 border-gray-300">
+                            <span class="ml-3 flex items-center text-sm font-medium text-gray-500">
+                              <span class="bg-yellow-300 w-3 h-3 me-3 rounded-full"></span>
+                              Pendente
+                            </span>
+                        </div>
+                        <div class="flex items-center">
+                            <input id="negado" name="status" type="radio" value="negado" class="focus:ring-indigo-500 h-4 w-4 text-indigo-600 border-gray-300">
+                            <span class="ml-3 flex items-center text-sm font-medium text-gray-500">
+                              <span class="bg-red-500 w-3 h-3 me-3 rounded-full"></span>
+                              Negado
+                            </span>
+                        </div>
+                        <div class="flex items-center">
+                            <input id="aprovado" name="status" type="radio" value="aprovado" class="focus:ring-indigo-500 h-4 w-4 text-indigo-600 border-gray-300">
+                              <span class="ml-3 flex items-center text-sm font-medium text-gray-500">
+                                <span class="bg-green-500 w-3 h-3 me-3 rounded-full"></span>
+                                Aprovado
+                              </span>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Filtro por Tipo -->
+                <div class="px-4 py-3">
+                    <span class="block text-sm font-medium text-gray-700">Tipo</span>
+                    <div class="mt-2 space-y-2">
+                      <div class="flex items-center">
+                        <input id="todos" name="tipo" type="radio" value="" class="focus:ring-indigo-500 h-4 w-4 text-indigo-600 border-gray-300" checked>
+                        <label for="todos" class="ml-3 block text-sm font-medium text-gray-500">Todos</label>
+                    </div>
+                        <div class="flex items-center">
+                            <input id="material-permanente" name="tipo" type="radio" value="material-permanente" class="focus:ring-indigo-500 h-4 w-4 text-indigo-600 border-gray-300">
+                            <label for="material-permanente" class="ml-3 block text-sm font-medium text-gray-500">Material Permanente</label>
+                        </div>
+                        <div class="flex items-center">
+                            <input id="material-consumo" name="tipo" type="radio" value="material-consumo" class="focus:ring-indigo-500 h-4 w-4 text-indigo-600 border-gray-300">
+                            <label for="material-consumo" class="ml-3 block text-sm font-medium text-gray-500">Material de Consumo</label>
+                        </div>
+                        <div class="flex items-center">
+                            <input id="hibrido" name="tipo" type="radio" value="hibrido" class="focus:ring-indigo-500 h-4 w-4 text-indigo-600 border-gray-300">
+                            <label for="hibrido" class="ml-3 block text-sm font-medium text-gray-500">Híbrido</label>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Filtro por Categoria -->
+                <div class="px-4">
+                  <label for="categoria" class="block text-sm font-medium text-gray-700 mb-2 ">
+                    Categoria
+                  </label>
+                  <select id="categoria" name="categoria" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5">
+                    <option value="">Todas</option>
+                    <option value="material-de-escritorio">Material de Escritório</option>
+                    <option value="equipamentos-de-informatica">Equipamentos de Informática</option>
+                    <option value="material-de-limpeza">Material de Limpeza</option>
+                    <option value="materiais-didaticos-pedagogicos">Materiais Didáticos e Pedagógicos</option>
+                    <option value="material-de-escritorio-especializado">Material de Escritório Especializado</option>
+                    <option value="equipamentos-de-laboratorio">Equipamentos de Laboratório</option>
+                    <option value="material-de-construcao-manutencao">Material de Construção e Manutenção</option>
+                    <option value="moveis-equipamentos">Móveis e Equipamentos</option>
+                    <option value="material-de-higiene-saude">Material de Higiene e Saúde</option>
+                    <option value="materiais-para-eventos-projetos-especiais">Materiais para Eventos e Projetos Especiais</option>
+                    <option value="materiais-esportivos-educacao-fisica">Materiais Esportivos e de Educação Física</option>
+                    <option value="recursos-tecnologicos-multimidia">Recursos Tecnológicos e Multimídia</option>
+                    <option value="material-de-arte-design">Material de Arte e Design</option>
+                    <option value="material-de-jardinagem-paisagismo">Material de Jardinagem e Paisagismo</option>
+                    <option value="material-de-seguranca-prevencao">Material de Segurança e Prevenção</option>
+                    <option value="outro">Outro</option>
+                  </select>
+                </div>
+            </div>
+
+            <div class="flex flex-col items-center mx-12 my-2" role="none">
+                <button class="inline-flex items-center px-2.5 py-2.5 text-sm font-medium text-center text-white bg-blue-600 rounded-lg focus:ring-4 focus:ring-blue-100">Aplicar Filtro</button>
+            </div>
+        </div>
+      </div>
+    </div>
+    <table class="w-full text-sm text-left text-gray-500">
+      <thead class="text-xs text-gray-700 uppercase bg-gray-50">
+        <tr>
+          <th scope="col" class="px-6 py-3">Nome</th>
+          <th scope="col" class="px-6 py-3">Qntd.</th>
+          <th scope="col" class="px-6 py-3">Descrição</th>
+          <th scope="col" class="px-6 py-3">Data</th>
+          <th scope="col" class="px-6 py-3">Status</th>
+          <th scope="col" class="px-6 py-3">Opções</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr *ngFor="let product of paginatedProducts" class="bg-white border-b">
+          <td class="px-6 py-4">
+            <span *ngIf="isTextTooLong(product.nome)">
+              <span class="flex product-name font-medium cursor-pointer" (click)="togglePopoverName(product)">{{ product.nome.slice(0, 20) }}... &nbsp;
+                <svg class="w-3 h-3 text-gray-800" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="currentColor" viewBox="0 0 18 18">
+                  <path d="M17 0h-5.768a1 1 0 1 0 0 2h3.354L8.4 8.182A1.003 1.003 0 1 0 9.818 9.6L16 3.414v3.354a1 1 0 0 0 2 0V1a1 1 0 0 0-1-1Z"/>
+                  <path d="m14.258 7.985-3.025 3.025A3 3 0 1 1 6.99 6.768l3.026-3.026A3.01 3.01 0 0 1 8.411 2H2.167A2.169 2.169 0 0 0 0 4.167v11.666A2.169 2.169 0 0 0 2.167 18h11.666A2.169 2.169 0 0 0 16 15.833V9.589a3.011 3.011 0 0 1-1.742-1.604Z"/>
+                </svg>
+              </span>
+              <app-popover *ngIf="popoverNameVisible[products.indexOf(product)]"
+             [title]="popoverTitle"
+             [content]="popoverContent"
+             (visibilityChange)="handlePopoverVisibilityChange($event)"></app-popover>
+            </span>
+            <span class="font-medium" *ngIf="!isTextTooLong(product.nome)">{{ product.nome }}</span>
+          </td>
+          <td class="px-6 py-4">{{ product.quantidade }}</td>
+          <td class="px-6 py-4">
+            <span *ngIf="isTextTooLong(product.descricao)">
+              <span class="flex product-description cursor-pointer" (click)="togglePopoverDescription(product)">{{ product.descricao.slice(0, 20) }}... &nbsp;
+                <svg class="w-3 h-3 text-gray-800" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="currentColor" viewBox="0 0 18 18">
+                  <path d="M17 0h-5.768a1 1 0 1 0 0 2h3.354L8.4 8.182A1.003 1.003 0 1 0 9.818 9.6L16 3.414v3.354a1 1 0 0 0 2 0V1a1 1 0 0 0-1-1Z"/>
+                  <path d="m14.258 7.985-3.025 3.025A3 3 0 1 1 6.99 6.768l3.026-3.026A3.01 3.01 0 0 1 8.411 2H2.167A2.169 2.169 0 0 0 0 4.167v11.666A2.169 2.169 0 0 0 2.167 18h11.666A2.169 2.169 0 0 0 16 15.833V9.589a3.011 3.011 0 0 1-1.742-1.604Z"/>
+                </svg>
+              </span>
+              <app-popover *ngIf="popoverDescriptionVisible[products.indexOf(product)]"
+             [title]="popoverTitle"
+             [content]="popoverContent"
+             (visibilityChange)="handlePopoverVisibilityChange($event)"></app-popover>
+            </span>
+            <span *ngIf="!isTextTooLong(product.descricao)">{{ product.descricao }}</span>
+          </td>
+
+          <td class="px-6 py-4">{{ product.data }}</td>
+          <td class="px-6 py-4">
+            <span class="flex items-center text-sm font-medium text-gray-900">
+              <span [ngClass]="{
+                  'bg-yellow-300': product.status === 'Pendente',
+                  'bg-green-500': product.status === 'Aprovado',
+                  'bg-red-500': product.status === 'Negado'
+                }" class="w-3 h-3 me-3 rounded-full"></span>
+              {{ product.status }}
+            </span>
+          </td>
+          <td class="px-6 py-4">
+            <div class="flex justify-end px-4 pt-4">
+              <button id="dropdownButton" (click)="toggleMenu($event, product)" class="inline-block text-gray-500 hover:bg-gray-100 focus:ring-4 focus:outline-none focus:ring-gray-200 rounded-lg text-sm p-1.5" type="button">
+                <span class="sr-only">Open dropdown</span>
+                <svg class="w-5 h-5" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="currentColor" viewBox="0 0 16 3">
+                  <path d="M2 0a1.5 1.5 0 1 1 0 3 1.5 1.5 0 0 1 0-3Zm6.041 0a1.5 1.5 0 1 1 0 3 1.5 1.5 0 0 1 0-3ZM14 0a1.5 1.5 0 1 1 0 3 1.5 1.5 0 0 1 0-3Z"/>
+                </svg>
+              </button>
+              <!-- Dropdown menu -->
+              <div id="dropdown" *ngIf="isMenuOpen && selectedProduct === product" class="z-10 absolute text-base list-none bg-white divide-y divide-gray-100 rounded-lg shadow w-44">
+                <ul class="border py-2">
+                  <ng-container *ngIf="product.status === 'Aprovado'">
+                    <li>
+                      <a (click)="verDetalhes()" class="cursor-pointer px-4 py-2 text-sm text-gray-700 hover:bg-gray-100">Ver detalhes</a>
+                    </li>
+                  </ng-container>
+                  <ng-container *ngIf="product.status === 'Negado'">
+                    <li>
+                      <a (click)="verDetalhes()" class="cursor-pointer block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100">Ver detalhes</a>
+                    </li>
+                    <li>
+                      <a (click)="verJustificativa()" class="cursor-pointer block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100">Ver justificativa</a>
+                    </li>
+                  </ng-container>
+                  <ng-container *ngIf="product.status === 'Pendente'">
+                    <li>
+                      <a (click)="verDetalhes()" class="cursor-pointer block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100">Ver detalhes</a>
+                    </li>
+                    <li>
+                      <a (click)="editar()" class="cursor-pointer block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100">Editar</a>
+                    </li>
+                    <li>
+                      <a (click)="cancelar()" class="cursor-pointer block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100">Cancelar pedido</a>
+                    </li>
+                  </ng-container>
+                </ul>
+              </div>
+            </div>
+          </td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+  <nav aria-label="Page navigation example" class="mt-4" *ngIf="pages.length > 1">
+    <ul class="flex items-center -space-x-px h-8 text-sm">
+      <!-- Botão Anterior -->
+      <li>
+        <button type="button" class="flex items-center justify-center px-3 h-8 ms-0 leading-tight text-gray-500 bg-white border border-e-0 border-gray-300 rounded-s-lg hover:bg-gray-100 hover:text-gray-700" (click)="onNavigate(currentPage - 1)">
+          <span class="sr-only">Previous</span>
+          <svg class="w-2.5 h-2.5 rtl:rotate-180" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 6 10">
+            <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 1 1 5l4 4"/>
+          </svg>
+        </button>
+      </li>
+
+      <!-- Botões de Página -->
+      <li *ngFor="let page of pages">
+        <button type="button" class="flex items-center justify-center px-3 h-8 leading-tight text-gray-500 bg-white border border-gray-300 hover:bg-gray-100 hover:text-gray-700" [ngClass]="{'bg-blue-50 text-blue-600 border-blue-300 hover:bg-blue-100 hover:text-blue-700': currentPage === page}" (click)="onNavigate(page)">
+          {{ page }}
+        </button>
+      </li>
+
+      <!-- Botão Próxima -->
+      <li>
+        <button type="button" class="flex items-center justify-center px-3 h-8 leading-tight text-gray-500 bg-white border border-gray-300 rounded-e-lg hover:bg-gray-100 hover:text-gray-700" (click)="onNavigate(currentPage + 1)">
+          <span class="sr-only">Next</span>
+          <svg class="w-2.5 h-2.5 rtl:rotate-180" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 6 10">
+            <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="m1 9 4-4-4-4"/>
+          </svg>
+        </button>
+      </li>
+    </ul>
+  </nav>
+</div>
+
+
+<div id="modal" class="fixed z-10 inset-0 overflow-y-auto hidden" aria-labelledby="modal-title" role="dialog" aria-modal="true">
+  <div class="flex items-end justify-center min-h-screen pt-4 px-4 pb-20 text-center sm:block sm:p-0">
+      <div class="fixed inset-0 bg-gray-500 bg-opacity-75 transition-opacity" aria-hidden="true"></div>
+      <span class="hidden sm:inline-block sm:align-middle sm:h-screen" aria-hidden="true">&#8203;</span>
+      <div class="inline-block align-bottom bg-white rounded-lg text-left overflow-hidden shadow-xl transform transition-all sm:my-8 sm:align-middle sm:max-w-lg sm:w-full" role="dialog" aria-labelledby="modal-title" aria-describedby="modal-description">
+          <div class="bg-blue px-4 pt-5 pb-4 sm:p-6 sm:pb-4">
+              <div>
+                  <div class="mt-3 text-center sm:mt-0 sm:ml-4 sm:text-left">
+                      <h3 class="text-lg leading-6 font-medium text-gray-900" id="modal-title">
+                          Editar Produto
+                      </h3>
+                      <!-- Conteúdo do modal -->
+                      <div class="mt-2">
+                          <form id="editForm" class="grid grid-cols-1 gap-y-6">
+                              <div style="display: none">
+                                  <input type="text" name="editId" id="editId" required>
+                              </div>
+                              <div>
+                                  <label for="editNome" class="block text-sm font-medium text-gray-700">Nome</label>
+                                  <input type="text" name="editNome" id="editNome" class="mt-1 p-2 focus:ring-blue-500 focus:border-blue-500 block w-full shadow-sm sm:text-sm border border-gray-300 rounded-md" required>
+                              </div>
+                              <div>
+                                <label for="editTipo" class="block text-sm font-medium text-gray-700">Tipo</label>
+                                <select name="editTipo" id="editTipo" class="mt-1 p-2 focus:ring-blue-500 focus:border-blue-500 block w-full shadow-sm sm:text-sm border border-gray-300 rounded-md" required>
+                                  <option value="material-de-consumo">Material de Consumo</option>
+                                  <option value="material-permanente">Material Permanente</option>
+                                  <option value="hibrido">Híbrido</option>
+                              </select>
+                              </div>
+                              <div>
+                                  <label for="editQuantidade" class="block text-sm font-medium text-gray-700">Quantidade</label>
+                                  <input type="number" name="editQuantidade" id="editQuantidade" class="mt-1 p-2 focus:ring-blue-500 focus:border-blue-500 block w-full shadow-sm sm:text-sm border border-gray-300 rounded-md" required>
+                              </div>
+                              <div>
+                                  <label for="editCategoria" class="block text-sm font-medium text-gray-700">Categoria</label>
+                                  <select name="editCategoria" id="editCategoria" class="mt-1 p-2 focus:ring-blue-500 focus:border-blue-500 block w-full shadow-sm sm:text-sm border border-gray-300 rounded-md" required>
+                                    <option value="material-de-escritorio">Material de Escritório</option>
+                                    <option value="equipamentos-de-informatica">Equipamentos de Informática</option>
+                                    <option value="material-de-limpeza">Material de Limpeza</option>
+                                    <option value="materiais-didaticos-pedagogicos">Materiais Didáticos e Pedagógicos</option>
+                                    <option value="material-de-escritorio-especializado">Material de Escritório Especializado</option>
+                                    <option value="equipamentos-de-laboratorio">Equipamentos de Laboratório</option>
+                                    <option value="material-de-construcao-manutencao">Material de Construção e Manutenção</option>
+                                    <option value="moveis-equipamentos">Móveis e Equipamentos</option>
+                                    <option value="material-de-higiene-saude">Material de Higiene e Saúde</option>
+                                    <option value="materiais-para-eventos-projetos-especiais">Materiais para Eventos e Projetos Especiais</option>
+                                    <option value="materiais-esportivos-educacao-fisica">Materiais Esportivos e de Educação Física</option>
+                                    <option value="recursos-tecnologicos-multimidia">Recursos Tecnológicos e Multimídia</option>
+                                    <option value="material-de-arte-design">Material de Arte e Design</option>
+                                    <option value="material-de-jardinagem-paisagismo">Material de Jardinagem e Paisagismo</option>
+                                    <option value="material-de-seguranca-prevencao">Material de Segurança e Prevenção</option>
+                                    <option value="outro">Outro</option>
+                                </select>
+                              </div>
+                              <div>
+                                  <label for="editDescricao" class="block text-sm font-medium text-gray-700">Descrição</label>
+                                  <textarea id="editDescricao" name="editDescricao" rows="3" class="mt-1 p-2 focus:ring-blue-500 focus:border-blue-500 block w-full shadow-sm sm:text-sm border border-gray-300 rounded-md" required></textarea>
+                              </div>
+                          </form>
+                      </div>
+                  </div>
+              </div>
+          </div>
+          <div class="bg-gray-50 px-4 py-3 sm:px-6 sm:flex sm:flex-row-reverse">
+              <button id="submitEdit" (click)="editarProduto()" type="button" class="w-full inline-flex justify-center rounded-md border border-transparent shadow-sm px-4 py-2 bg-blue-600 text-base font-medium text-white hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500 sm:ml-3 sm:w-auto sm:text-sm">
+                  Enviar
+              </button>
+              <button id="closeModal" (click)="closeEditModal()" type="button" class="mt-3 w-full inline-flex justify-center rounded-md border border-gray-300 shadow-sm px-4 py-2 bg-white text-base font-medium text-gray-700 hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500 sm:mt-0 sm:w-auto sm:text-sm">
+                  Fechar
+              </button>
+          </div>
+      </div>
+  </div>
+</div>
+
+
+<div id="popup-modal" tabindex="-1" class="hidden fixed inset-0 z-50 flex justify-center items-center">
+  <div class="relative p-4 w-full max-w-md max-h-full">
+      <div class="relative border-2 bg-white rounded-lg shadow">
+          <button (click)="closeCancelModal()" type="button" class="absolute top-3 right-2.5 text-gray-400 bg-transparent hover:bg-gray-200 hover:text-gray-900 rounded-lg text-sm w-8 h-8 ms-auto inline-flex justify-center items-center" data-modal-hide="popup-modal">
+              <svg class="w-3 h-3" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 14 14">
+                  <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="m1 1 6 6m0 0 6 6M7 7l6-6M7 7l-6 6"/>
+              </svg>
+              <span class="sr-only">Fechar Modal</span>
+          </button>
+          <div class="p-4 md:p-5 text-center">
+              <svg class="mx-auto mb-4 text-gray-400 w-12 h-12" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 20 20">
+                  <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 11V6m0 8h.01M19 10a9 9 0 1 1-18 0 9 9 0 0 1 18 0Z"/>
+              </svg>
+              <h3 class="mb-5 text-lg font-normal text-gray-500">Tem certeza que quer deletar esta solicitação?</h3>
+              <button (click)="confirmarCancelamento()" data-modal-hide="popup-modal" type="button" class="text-white bg-red-600 hover:bg-red-800 focus:ring-4 focus:outline-none focus:ring-red-300 font-medium rounded-lg text-sm inline-flex items-center px-5 py-2.5 text-center">
+                  Sim, tenho certeza
+              </button>
+              <button (click)="closeCancelModal()" data-modal-hide="popup-modal" type="button" class="py-2.5 px-5 ms-3 text-sm font-medium text-gray-900 focus:outline-none bg-white rounded-lg border border-gray-200 hover:bg-gray-100 hover:text-blue-700 focus:z-10 focus:ring-4 focus:ring-gray-100">Não, cancelar</button>
+          </div>
+      </div>
+  </div>
+</div>
+
+<app-footer></app-footer>

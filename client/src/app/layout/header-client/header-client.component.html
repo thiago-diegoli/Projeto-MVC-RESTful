@@ -5,15 +5,15 @@
               <img src="fatec-votorantim.png" alt="Logo Fatec" class="h-16 mr-16">
               <img src="cps.png" alt="Logo CPS" class="h-16">
           </a>
-          <input type="checkbox" id="check" />      
+          <input type="checkbox" id="check" />
           <span class="menu flex [&>li]:pl-4 lg:[&>li]:pl-8 [&>li>a]:text-center [&>li>a]:relative [&>li>a]:transition [&>li>a]:duration-200 [&>li>a]:ease-in-out [&>li>a]:font-medium [&>li>a]:text-md lg:[&>li>a]:text-lg">
-              <li><a href="cadastrar.html">Cadastrar Produto</a></li>
-              <li><a href="#">Ver Cadastrados</a></li>
-            <li><button type="button" onclick="fazerLogout()" class="text-white relative bg-red-700 hover:bg-red-800 focus:outline-none focus:ring-4 focus:ring-red-300 transition duration-200 ease-in-out font-medium rounded-2xl text-lg px-6 py-1 text-center">Sair</button></li>
-    
+              <li><a routerLink='/requisitions'>Cadastrar Produto</a></li>
+              <li><a routerLink='/historic'>Histórico</a></li>
+            <li><button type="button" (click)="fazerLogout()" class="text-white relative bg-red-700 hover:bg-red-800 focus:outline-none focus:ring-4 focus:ring-red-300 transition duration-200 ease-in-out font-medium rounded-2xl text-lg px-6 py-1 text-center">Sair</button></li>
+
             <label for="check" class="close-menu">X</label>
             </span>
-    
+
             <label for="check" class="open-menu font-medium">Menu</label>
         </ul>
     </nav>

@@ -1,4 +1,4 @@
-// controllers/authController.js
+// controllers/LoginController.js
 import { validationResult } from 'express-validator';
 import bcrypt from 'bcrypt';
 import jwt from 'jsonwebtoken';
@@ -13,7 +13,8 @@ export const register = async (req, res) => {
     
     const { nome, email, senha } = req.body;
     const senhaCriptografada = await bcrypt.hash(senha, 10);
-    const usuario = new User({ nome, email, senha: senhaCriptografada });
+    let cargo = 'user';
+    const usuario = new User({ nome, email, senha: senhaCriptografada, cargo });
     await usuario.save();
     res.status(201).json(usuario);
   } catch (err) {

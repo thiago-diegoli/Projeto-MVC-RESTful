@@ -6,21 +6,21 @@ Content-Type: application/json
 access-token: 
 
 ###
-GET {{baseURL}}/id/6626f488d60c4529f354953e
+GET {{baseURL}}/all
 Content-Type: application/json
-access-token: 
+access-token: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiI2NjY2N2ExYmUwNTZkNDIyMDFhZTQwNzEiLCJpYXQiOjE3MTc5OTIxOTUsImV4cCI6MTcxODA3ODU5NX0.ZzjR13Ad0gEemT2r1KkTNhOi304F1n6YtCIFZ5_1j1c
 
 ###
 POST {{baseURL}}
 Content-Type: application/json
-access-token: 
+access-token: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiI2NjY1N2I4ZDVjM2MxMmE3NThkYThhOWMiLCJpYXQiOjE3MTc5NzU2MjAsImV4cCI6MTcxODA2MjAyMH0.lOHHxPCryWLx4Zz1tEOdmQIDQDLm57qrzrukSehO56M
 
 {
-    "nome": "Caneta Esferografica Azul",
-    "quantidade": 2,
-    "preco": 5.00,
-    "descricao": "Caneta Esferografica Azul",
-    "data": "2024-04-11T23:25:05.852Z"
+    "nome": "Cimento Portland",
+    "tipo": "material-de-consumo",
+    "quantidade": 30,
+    "categoria": "material-de-construcao-manutencao",
+    "descricao": "Cimento para pequenas reformas e manutenção na faculdade"
 }
 
 ###
@@ -45,3 +45,4 @@ access-token:
 GET {{baseURL}}/filtros/?qtdMin=1&qtdMax=4&precoMin=40&precoMax=50
 Content-Type: application/json
 access-token:
+###
