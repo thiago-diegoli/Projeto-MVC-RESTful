@@ -33,4 +33,11 @@ export class ProductsService {
 
     return this.http.delete(`${this.apiUrl}/${id}`, { headers });
   }
+
+  getProductsAll(): Observable<any> {
+    const token = localStorage.getItem('access_token');
+    const headers = new HttpHeaders().set('access-token', `${token}`);
+
+        return this.http.get(`${this.apiUrl}/all`, { headers });
+  }
 }

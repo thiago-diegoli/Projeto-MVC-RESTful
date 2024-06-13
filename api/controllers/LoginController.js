@@ -1,4 +1,3 @@
-// controllers/LoginController.js
 import { validationResult } from 'express-validator';
 import bcrypt from 'bcrypt';
 import jwt from 'jsonwebtoken';
@@ -44,7 +43,7 @@ export const login = async (req, res) => {
 
     jwt.sign({ userId: usuario._id }, process.env.SECRET_KEY, { expiresIn: process.env.EXPIRES_IN }, (err, token) => {
       if (err) throw err;
-      res.status(200).json({ access_token: token });
+      res.status(200).json({ access_token: token, cargo: usuario.cargo });
     });
   } catch (err) {
     res.status(500).json({ message: `${err.message} Erro no server` });

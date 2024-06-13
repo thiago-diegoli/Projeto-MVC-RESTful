@@ -7,13 +7,15 @@ import { LayoutModule } from './../layout/layout.module';
 import { RouterModule } from '@angular/router';
 import { RequisitionsComponent } from './requisitions/requisitions.component';
 import { HistoricComponent } from './historic/historic.component';
+import { AdminDashboardComponent } from './admin-dashboard/admin-dashboard.component';
 
 @NgModule({
   declarations: [
     LoginComponent,
     RegisterComponent,
     RequisitionsComponent,
-    HistoricComponent
+    HistoricComponent,
+    AdminDashboardComponent
    ],
   imports: [
     CommonModule,

@@ -1,15 +1,10 @@
-// controllers/ProductController.js
 import { validationResult } from 'express-validator';
 import Product from '../models/ProductModel.js';
 import mongoose from 'mongoose';
 
 export const getProducts = async (req, res) => {
-  const { limit, skip, order } = req.query;
   try {
     const products = await Product.find()
-      .limit(parseInt(limit) || 10)
-      .skip(parseInt(skip) || 0)
-      .sort({ [order]: 1 });
     res.status(200).json(products);
   } catch (err) {
     res.status(500).json({ message: 'Erro ao obter a listagem dos produtos', error: err.message });
@@ -123,7 +118,9 @@ export const updateProduct = async (req, res) => {
     if (!product) {
       return res.status(404).json({ message: 'Produto não encontrado' });
     }
-
+    if (product.status != req.body.status) {
+      return res.status(403).json({ message: 'Você não tem permissão para atualizar os status do produto' });
+    }
     if (product.userId.toString() !== req.user.userId.toString()) {
       return res.status(403).json({ message: 'Você não tem permissão para atualizar este produto' });
     }

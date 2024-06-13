@@ -1,13 +1,13 @@
 import { Component, HostListener, OnInit } from '@angular/core';
-import { ProductsService } from './../../service/products.service';
+import { ProductsService } from '../../service/products.service';
 import { MatDialog } from '@angular/material/dialog';
 
 @Component({
-  selector: 'app-historic',
-  templateUrl: './historic.component.html',
-  styleUrls: ['./historic.component.css']
+  selector: 'app-admin-dashboard',
+  templateUrl: './admin-dashboard.component.html',
+  styleUrl: './admin-dashboard.component.css'
 })
-export class HistoricComponent implements OnInit {
+export class AdminDashboardComponent implements OnInit {
   products: any[] = [];
   currentPage = 1;
   itemsPerPage = 5;
@@ -18,7 +18,6 @@ export class HistoricComponent implements OnInit {
   popoverContent: string = '';
   popoverNameVisible: boolean[] = [];
   popoverDescriptionVisible: boolean[] = [];
-  isDetailsModalOpen: boolean = false;
 
   constructor(private productService: ProductsService, public dialog: MatDialog) {}
 
@@ -31,7 +30,7 @@ export class HistoricComponent implements OnInit {
   }
 
   getProducts(): void {
-    this.productService.getProductsByUserId().subscribe(
+    this.productService.getProductsAll().subscribe(
       (data) => {
         this.products = data;
         this.sortProductsByDate();
@@ -259,40 +258,10 @@ export class HistoricComponent implements OnInit {
     }
   }
 
+  verDetalhes() {
+
+  }
   verJustificativa() {
-    // Implemente a função de ver justificativa aqui, caso necessário
-  }
 
-  openDetailsModal() {
-    this.isDetailsModalOpen = true;
-    const modal = document.getElementById('detailsModal');
-    if (modal) {
-      modal.classList.remove('hidden');
-    }
-  }
-
-  closeDetailsModal() {
-    this.isDetailsModalOpen = false;
-    const modal = document.getElementById('detailsModal');
-    if (modal) {
-      modal.classList.add('hidden');
-    }
-  }
-
-  fillDetailsForm(product: any) {
-    const form = document.getElementById('detailsForm') as HTMLFormElement;
-    if (form) {
-      (form.elements.namedItem('detailsNome') as HTMLInputElement).value = product.nome;
-      (form.elements.namedItem('detailsQuantidade') as HTMLInputElement).value = product.quantidade;
-      (form.elements.namedItem('detailsDescricao') as HTMLTextAreaElement).value = product.descricao;
-      (form.elements.namedItem('detailsTipo') as HTMLInputElement).value = product.tipo;
-      (form.elements.namedItem('detailsCategoria') as HTMLInputElement).value = product.categoria;
-    }
-  }
-
-  verDetalhes(product: any) {
-    this.selectedProduct = product;
-    this.openDetailsModal();
-    this.fillDetailsForm(product);
   }
 }

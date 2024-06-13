@@ -13,14 +13,14 @@ access-token: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiI2NjY2N2ExYmUwN
 ###
 POST {{baseURL}}
 Content-Type: application/json
-access-token: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiI2NjY1N2I4ZDVjM2MxMmE3NThkYThhOWMiLCJpYXQiOjE3MTc5NzU2MjAsImV4cCI6MTcxODA2MjAyMH0.lOHHxPCryWLx4Zz1tEOdmQIDQDLm57qrzrukSehO56M
+access-token: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiI2NjZhMmRlYzNhYTFhZjFkYmU0MjQyYTQiLCJpYXQiOjE3MTgyMzQ2MjAsImV4cCI6MTcxODMyMTAyMH0.C_shUAnUESD6PnSs007wjwiytTEk26WeMVsZ-H7-Naw
 
 {
-    "nome": "Cimento Portland",
-    "tipo": "material-de-consumo",
-    "quantidade": 30,
-    "categoria": "material-de-construcao-manutencao",
-    "descricao": "Cimento para pequenas reformas e manutenção na faculdade"
+    "nome": "Impressora Laser Multifuncional",
+    "tipo": "material-permanente",
+    "quantidade": 5,
+    "categoria": "material-de-escritorio-especializado",
+    "descricao": "Impressora multifuncional para o departamento administrativo"
 }
 
 ###

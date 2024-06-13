@@ -5,13 +5,15 @@ import { FooterComponent } from './footer/footer.component';
 import { HeaderClientComponent } from './header-client/header-client.component';
 import { RouterModule } from '@angular/router';
 import { PopoverComponent } from './popover/popover.component';
+import { HeaderAdminComponent } from './header-admin/header-admin.component';
 
 @NgModule({
   declarations: [
     HeaderComponent,
     FooterComponent,
     HeaderClientComponent,
-    PopoverComponent
+    PopoverComponent,
+    HeaderAdminComponent
    ],
   imports: [
     CommonModule,
@@ -21,7 +23,8 @@ import { PopoverComponent } from './popover/popover.component';
     HeaderComponent,
     FooterComponent,
     HeaderClientComponent,
-    PopoverComponent
+    PopoverComponent,
+    HeaderAdminComponent
   ]
 })
 

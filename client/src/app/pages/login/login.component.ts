@@ -35,7 +35,11 @@ export class LoginComponent {
         } else {
           localStorage.removeItem('savedCredentials');
         }
-        this.router.navigate(['/requisitions']);
+        if (response.cargo === 'admin') {
+          this.router.navigate(['/admin-dashboard']);
+        } else {
+          this.router.navigate(['/requisitions']);
+        }
       },
       error => {
         this.errorMessage = 'Erro ao fazer login. Verifique suas credenciais.';
