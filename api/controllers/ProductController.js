@@ -66,16 +66,21 @@ export const createProduct = async (req, res) => {
     if (!errors.isEmpty()) {
       return res.status(400).json({ errors: errors.array() });
     }
-    const { quantidade, ...outrasProps } = req.body;
+    const { quantidade, descricao, ...outrasProps } = req.body;
     const userId = req.user.userId;
     const justificativa = '';
+    const descricaoTratada = descricao ?? '';
+
     const product = new Product({
       quantidade: parseInt(quantidade),
       justificativa: justificativa,
       userId,
+      descricao: descricaoTratada,
       ...outrasProps
     });
+
     await product.save();
+
     res.status(201).json(product);
   } catch (err) {
     res.status(500).json({ message: 'Erro no servidor', error: err.message });
@@ -118,8 +123,10 @@ export const updateProduct = async (req, res) => {
     if (!product) {
       return res.status(404).json({ message: 'Produto não encontrado' });
     }
-    if (product.status != req.body.status) {
-      return res.status(403).json({ message: 'Você não tem permissão para atualizar os status do produto' });
+    if (req.body.status != null){
+      if (product.status != req.body.status) {
+        return res.status(403).json({ message: 'Você não tem permissão para atualizar os status do produto' });
+      }
     }
     if (product.userId.toString() !== req.user.userId.toString()) {
       return res.status(403).json({ message: 'Você não tem permissão para atualizar este produto' });

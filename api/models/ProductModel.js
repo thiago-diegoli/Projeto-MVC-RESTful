@@ -7,7 +7,8 @@ const productSchema = new mongoose.Schema({
     enum: [
       'material-de-consumo',
       'material-permanente',
-      'hibrido'
+      'hibrido',
+      'outro'
     ],
     required: true
   },
@@ -34,9 +35,9 @@ const productSchema = new mongoose.Schema({
     ], 
     required: true 
   },
-  descricao: { type: String, required: true },
-  data: { type: Date, default: Date.now },
-  status: { type: String, enum: ['Pendente', 'Aprovado', 'Negado'], default: 'Pendente' },
+  descricao: { type: String },
+  data: { type: Date, default: Date.now, required: true },
+  status: { type: String, enum: ['Pendente', 'Aprovado', 'Negado'], default: 'Pendente', required: true },
   justificativa: { type: String },
   userId: { type: mongoose.Schema.Types.ObjectId, ref: 'User', required: true }
 });

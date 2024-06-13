@@ -40,4 +40,11 @@ export class ProductsService {
 
         return this.http.get(`${this.apiUrl}/all`, { headers });
   }
+
+  insertProduct(productData: any): Observable<any> {
+    const token = localStorage.getItem('access_token');
+    const headers = new HttpHeaders().set('access-token', `${token}`);
+
+    return this.http.post(`${this.apiUrl}/`, productData, { headers });
+  }
 }

@@ -13,7 +13,7 @@ access-token: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiI2NjY2N2ExYmUwN
 ###
 POST {{baseURL}}
 Content-Type: application/json
-access-token: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiI2NjZhMmRlYzNhYTFhZjFkYmU0MjQyYTQiLCJpYXQiOjE3MTgyMzQ2MjAsImV4cCI6MTcxODMyMTAyMH0.C_shUAnUESD6PnSs007wjwiytTEk26WeMVsZ-H7-Naw
+access-token: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiI2NjY1N2I4ZDVjM2MxMmE3NThkYThhOWMiLCJpYXQiOjE3MTgyOTA0NzksImV4cCI6MTcxODM3Njg3OX0.nLeqQEAx4FmJCFqpMilCYtk3WkMJjZXwIXuUCu1qyvM
 
 {
     "nome": "Impressora Laser Multifuncional",

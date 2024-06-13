@@ -4,7 +4,8 @@ import Product from '../models/ProductModel.js';
 const allowedTypes = [
   'material-de-consumo',
   'material-permanente',
-  'hibrido'
+  'hibrido',
+  'outro'
 ];
 
 const allowedCategories = [

@@ -2,7 +2,7 @@
 <section class="bg-white pt-28 mb-14">
     <div class="px-4 mx-auto max-w-4xl">
       <h2 class="mb-4 text-2xl font-semibold leading-none tracking-tight text-gray-900 md:text-2xl lg:text-3xl">Faça a Requisição do Produto Desejado</h2>
-        <form id="requisicao">
+        <form id="requisicao" #requisicaoForm="ngForm">
             <div>
               <div class="flex flex-wrap mb-2">
                 <div class="w-full md:w-3/5 md:pr-3 lg:pr-3 mb-6 md:mb-0">
@@ -15,6 +15,7 @@
                     <option value="material-de-consumo">Material de Consumo</option>
                     <option value="material-permanente">Material Permanente</option>
                     <option value="hibrido">Híbrido</option>
+                    <option value="outro">Outro</option>
                     <option value="nao-sei">Não sei (Pesquisar na BEC)</option>
                   </select>
                 </div>
@@ -28,12 +29,14 @@
                   </div>
                   <input (input)="handleInput($event)" class="block w-full p-4 ps-10 text-sm text-gray-900 border border-gray-300 rounded-lg bg-gray-50 focus:ring-blue-500 focus:border-blue-500" type="search" id="produtoDesejadoInput" placeholder="Digite o nome do produto...">
                   <ul *ngIf="sugestoes.length > 0" class="suggestions">
-                    <li *ngFor="let sugestao of sugestoes" (click)="selectSuggestion(sugestao)">{{ sugestao }}</li>
+                    <li *ngFor="let sugestao of sugestoes" (click)="selectSuggestion(sugestao)">
+                      {{ sugestao }}
+                    </li>
                   </ul>
-
                   <button id="pesquisarItem" (click)="pesquisarProduto()" class="text-white absolute end-2.5 bottom-2.5 bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-4 py-2">Pesquisar</button>
-                  </div>
-                  <div *ngIf="informacoes" id="informacoes">
+                </div>
+                  <div *ngIf="informacoes" id="informacoes" class="flex flex-col w-full leading-1.5 p-4 mb-2 border-blue-200 border bg-blue-100 rounded-xl text-sm">
+                    <p class="font-semibold">Informações do produto</p>
                     <p id="p1">{{ informacoes.material }}</p>
                     <p id="p2">{{ informacoes.codigoMaterial }}</p>
                   </div>
@@ -68,12 +71,12 @@
                     </div>
                 </div>
                 <div class="sm:col-span-2 mt-4">
-                    <label for="description" class="block mb-2 text-sm font-medium text-gray-900">Descrição</label>
-                    <textarea id="description" rows="8"  class="resize-none block p-2.5 w-full text-sm text-gray-900 bg-gray-50 rounded-lg border border-gray-300 focus:ring-blue-400 focus:border-blue-400" placeholder="Especifique a finalidade, qual modelo, cor, tamanho etc."></textarea>
+                    <label for="descricao" class="block mb-2 text-sm font-medium text-gray-900">Descrição</label>
+                    <textarea id="descricao" name="descricao" rows="8"  class="resize-none block p-2.5 w-full text-sm text-gray-900 bg-gray-50 rounded-lg border border-gray-300 focus:ring-blue-400 focus:border-blue-400" placeholder="Especifique a finalidade, qual modelo, cor, tamanho etc."></textarea>
                 </div>
             </div>
             <div class="flex items-center justify-center sm:place-items-start sm:justify-normal">
-                <button type="submit" id="submitBtn" class="inline-flex items-center px-5 py-2.5 mt-4 sm:mt-6 text-sm font-medium text-center text-white bg-blue-600 rounded-lg focus:ring-4 focus:ring-blue-100">
+                <button (click)="onSubmit()" type="submit" id="submitBtn" class="inline-flex items-center px-5 py-2.5 mt-4 sm:mt-6 text-sm font-medium text-center text-white bg-blue-600 rounded-lg focus:ring-4 focus:ring-blue-100">
                     Enviar
                 </button>
             </div>
