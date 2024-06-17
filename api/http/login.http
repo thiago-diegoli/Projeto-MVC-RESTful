@@ -8,6 +8,15 @@ Content-Type: application/json
     "senha": "admin123"
 }
 ###
+POST {{baseURL}}/cadastro
+Content-Type: application/json
+
+{
+    "nome": "Usuario Comum",
+    "email": "usuario@email.com",
+    "senha": "senha123"
+}
+###
 POST {{baseURL}}/
 Content-Type: application/json
 
