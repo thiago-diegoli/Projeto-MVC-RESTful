@@ -1,14 +1,5 @@
 {
     "version": 2,
-    "rewrites": [
-        {
-            "source": "../api/(.*)",
-            "destination": "../api"
-        }
-    ],
-    "functions": {
-        "../api/app.js": {
-            "includeFiles": "../api/swagger/swagger_output.json"
-        }
-    }
-}
+    "builds": [{ "src": "app.js", "use": "@vercel/node" }],
+    "routes": [{ "src": "(.*)", "dest": "app.js" }]
+  }
