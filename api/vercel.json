@@ -1,0 +1,14 @@
+{
+    "version": 2,
+    "rewrites": [
+        {
+            "source": "/(.*)",
+            "destination": "/"
+        }
+    ],
+    "functions": {
+        "app.js": {
+            "includeFiles": "swagger/swagger_output.json"
+        }
+    }
+}
