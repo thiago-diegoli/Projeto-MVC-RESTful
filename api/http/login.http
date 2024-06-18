@@ -1,13 +1,6 @@
 @baseURL = http://localhost:4000/api/logins
-POST {{baseURL}}/cadastro
-Content-Type: application/json
 
-{
-    "nome": "Administrador",
-    "email": "admin@admin.com",
-    "senha": "admin123"
-}
-###
+# Cadastro de um novo usuário comum
 POST {{baseURL}}/cadastro
 Content-Type: application/json
 
@@ -16,11 +9,55 @@ Content-Type: application/json
     "email": "usuario@email.com",
     "senha": "senha123"
 }
+
+# Explicação:
+# Esta requisição permite cadastrar um novo usuário comum.
+# O nome, e-mail e senha do usuário são fornecidos no corpo da requisição.
+# Para fins de teste, você pode usar qualquer e-mail e senha desejados.
+
 ###
+# Tentativa de cadastro de um administrador
+POST {{baseURL}}/cadastro
+Content-Type: application/json
+
+{
+    "nome": "Administrador",
+    "email": "admin@admin.com",
+    "senha": "admin123"
+}
+
+# Explicação:
+# Este exemplo mostra como seria o cadastro de um usuário administrador.
+# Contudo, a conta de administrador deve ser criada diretamente no banco de dados
+# para garantir a segurança. Este endpoint pode ser usado para testar a criação de um usuário
+# com permissões normais, mesmo que o e-mail e senha sugeridos sejam de um "administrador" hipotético.
+
+###
+# Login de um usuário comum
 POST {{baseURL}}/
 Content-Type: application/json
 
 {
-    "email": "teste@teste.com",
-    "senha": "@teste123"
+    "email": "usuario@email.com",
+    "senha": "senha123"
 }
+
+# Explicação:
+# Esta requisição permite o login de um usuário comum.
+# O e-mail e a senha devem corresponder aos de um usuário registrado.
+# Se a autenticação for bem-sucedida, um token de acesso será retornado.
+
+###
+# Tentativa de login de um administrador
+POST {{baseURL}}/
+Content-Type: application/json
+
+{
+    "email": "admin@admin.com",
+    "senha": "admin123"
+}
+
+# Explicação:
+# Este exemplo mostra como seria o login de um usuário administrador.
+# Porém, a conta de administrador deve ser configurada diretamente no banco de dados.
+# Para fins de teste, você pode usar as credenciais de um administrador criado manualmente.

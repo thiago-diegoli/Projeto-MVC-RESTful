@@ -1,48 +1,95 @@
 @baseURL = http://localhost:4000/api/products
+@accessToken = ?
+@adminAccessToken = ?
 
 
-GET {{baseURL}}/?limit=3&skip=0
+# Obtém todos os produtos do usuário autenticado
+GET {{baseURL}}/
 Content-Type: application/json
-access-token: 
+access-token: {{accessToken}}
+
+# Explicação:
+# Este endpoint retorna todos os produtos do usuário autenticado. 
+# O token de acesso é necessário para autenticação.
 
 ###
+# Obtém todos os produtos, requer permissão de administrador
 GET {{baseURL}}/all
 Content-Type: application/json
-access-token: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiI2NjY2N2ExYmUwNTZkNDIyMDFhZTQwNzEiLCJpYXQiOjE3MTc5OTIxOTUsImV4cCI6MTcxODA3ODU5NX0.ZzjR13Ad0gEemT2r1KkTNhOi304F1n6YtCIFZ5_1j1c
+access-token: {{adminAccessToken}}
+
+# Explicação:
+# Este endpoint retorna todos os produtos de todos os usuários. 
+# É necessário ter permissões de administrador.
 
 ###
+# Cria um novo produto
 POST {{baseURL}}
 Content-Type: application/json
-access-token: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiI2NjY1N2I4ZDVjM2MxMmE3NThkYThhOWMiLCJpYXQiOjE3MTgyOTA0NzksImV4cCI6MTcxODM3Njg3OX0.nLeqQEAx4FmJCFqpMilCYtk3WkMJjZXwIXuUCu1qyvM
+access-token: {{accessToken}}
 
 {
-    "nome": "Impressora Laser Multifuncional",
-    "tipo": "material-permanente",
-    "quantidade": 5,
-    "categoria": "material-de-escritorio-especializado",
-    "descricao": "Impressora multifuncional para o departamento administrativo"
+    "nome": "Bolas de Futebol",
+    "tipo": "material-de-consumo",
+    "quantidade": 25,
+    "categoria": "materiais-esportivos-educacao-fisica",
+    "descricao": "Bolas de futebol para as aulas de educação física"
 }
 
-###
-DELETE {{baseURL}}/6639171fda80f9cc4adaa803
-Content-Type: application/json
-access-token:
+# Explicação:
+# Este endpoint permite a criação de um novo produto. 
+# É necessário fornecer o token de acesso do usuário e os detalhes do produto.
 
 ###
+# Deleta um produto específico
+DELETE {{baseURL}}/60b7285f5f9b2a2e88d7ef84
+Content-Type: application/json
+access-token: {{accessToken}}
+
+# Explicação:
+# Este endpoint permite a exclusão de um produto pelo seu ID.
+# O token de acesso do usuário é necessário, e o produto só pode ser excluído se tiver o status "Pendente".
+
+###
+# Atualiza um produto específico
 PUT {{baseURL}}
 Content-Type: application/json
-access-token:
+access-token: {{accessToken}}
 
 {
-    "_id": "6623bcd6c7fb6560f205bd46",
-    "nome": "Caneta Esferografica Vermelha",
-    "quantidade": 2,
-    "preco": 5.05,
-    "descricao": "Caneta Esferografica Vermelha",
-    "data": "2024-04-11T23:25:05.852Z"
+    "_id": "60b7285f5f9b2a2e88d7ef84",
+    "nome": "Bolas de Futebol Modificadas",
+    "tipo": "material-de-consumo",
+    "quantidade": 30,
+    "categoria": "materiais-esportivos-educacao-fisica",
+    "descricao": "Bolas de futebol para as aulas de educação física, agora modificadas"
 }
+
+# Explicação:
+# Este endpoint permite a atualização de um produto existente.
+# O ID do produto é necessário e deve ser passado no corpo da requisição.
+
 ###
-GET {{baseURL}}/filtros/?qtdMin=1&qtdMax=4&precoMin=40&precoMax=50
+# Atualiza o status de um produto específico (requer permissão de administrador)
+PUT {{baseURL}}/aprove/60b7285f5f9b2a2e88d7ef84
 Content-Type: application/json
-access-token:
+access-token: {{adminAccessToken}}
+
+{
+    "status": "Aprovado",
+    "justificativa": "Produto necessário para eventos escolares."
+}
+
+# Explicação:
+# Este endpoint permite a atualização do status de um produto.
+# O token de acesso do administrador é necessário para realizar esta operação.
+
 ###
+# Filtra produtos com base em parâmetros de consulta
+GET {{baseURL}}/products?dataMin=2024-01-01&dataMax=2024-12-31&nome=bola&status=Pendente
+Content-Type: application/json
+access-token: {{accessToken}}
+
+# Explicação:
+# Este endpoint permite filtrar produtos com base em vários parâmetros.
+# Os filtros incluem data mínima e máxima, nome do produto, status, entre outros.

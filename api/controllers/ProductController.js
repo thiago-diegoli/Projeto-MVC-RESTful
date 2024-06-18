@@ -27,42 +27,6 @@ export const getProductByUserId = async (req, res) => {
   }
 };
 
-/* export const getProductsByFilters = async (req, res) => {
-  const { qtdMin, qtdMax, precoMin, precoMax } = req.query;
-
-  let filtroQtd = {};
-  let filtroPreco = {};
-
-  if (qtdMin !== undefined && qtdMax !== undefined) {
-    filtroQtd = { quantidade: { $gte: parseInt(qtdMin), $lte: parseInt(qtdMax) } };
-  } else if (qtdMin !== undefined) {
-    filtroQtd = { quantidade: { $gte: parseInt(qtdMin) } };
-  } else if (qtdMax !== undefined) {
-    filtroQtd = { quantidade: { $lte: parseInt(qtdMax) } };
-  }
-
-  if (precoMin !== undefined && precoMax !== undefined) {
-    filtroPreco = { preco: { $gte: parseFloat(precoMin), $lte: parseFloat(precoMax) } };
-  } else if (precoMin !== undefined) {
-    filtroPreco = { preco: { $gte: parseFloat(precoMin) } };
-  } else if (precoMax !== undefined) {
-    filtroPreco = { preco: { $lte: parseFloat(precoMax) } };
-  }
-
-  if (Object.keys(filtroQtd).length === 0 && Object.keys(filtroPreco).length === 0) {
-    return res.status(400).json({ message: 'É necessário fornecer pelo menos um parâmetro de filtro (quantidade ou preço)' });
-  } else if ((parseInt(qtdMin) >= parseInt(qtdMax)) || (parseFloat(precoMin) >= parseFloat(precoMax))) {
-    return res.status(400).json({ message: 'Os parâmetros são iguais ou a quantidade mínima é maior que a máxima' });
-  }
-
-  try {
-    const products = await Product.find({ $and: [filtroQtd, filtroPreco] });
-    res.status(200).json(products);
-  } catch (err) {
-    res.status(500).json({ message: 'Erro ao obter o produto pelo filtro', error: err.message });
-  }
-}; */
-
 export const createProduct = async (req, res) => {
   try {
     const errors = validationResult(req);
@@ -172,50 +136,5 @@ export const updateProductStatus = async (req, res) => {
     res.status(200).json({ message: 'Status do produto atualizado com sucesso', product });
   } catch (err) {
     res.status(500).json({ message: 'Erro ao atualizar o status do produto', error: err.message });
-  }
-};
-
-export const getProductsByFilters = async (req, res) => {
-  const { dataMin, dataMax, nome, status, userId } = req.query;
-
-  let filtroData = {};
-  let filtroNome = {};
-  let filtroStatus = {};
-  let filtroUserId = {};
-
-  if (dataMin !== undefined && dataMax !== undefined) {
-    filtroData = { data: { $gte: new Date(dataMin), $lte: new Date(dataMax) } };
-  } else if (dataMin !== undefined) {
-    filtroData = { data: { $gte: new Date(dataMin) } };
-  } else if (dataMax !== undefined) {
-    filtroData = { data: { $lte: new Date(dataMax) } };
-  }
-
-  if (nome !== undefined) {
-    filtroNome = { nome: new RegExp(nome, 'i') };
-  }
-
-  if (status !== undefined) {
-    filtroStatus = { status };
-  }
-
-  if (userId !== undefined) {
-    filtroUserId = { userId };
-  }
-
-  if (dataMin !== undefined && dataMax !== undefined && new Date(dataMin) >= new Date(dataMax)) {
-    return res.status(400).json({ message: 'A data mínima é maior ou igual à data máxima.' });
-  }
-
-  if (Object.keys(filtroData).length === 0 && Object.keys(filtroNome).length === 0 &&
-      Object.keys(filtroStatus).length === 0 && Object.keys(filtroUserId).length === 0) {
-    return res.status(400).json({ message: 'É necessário fornecer pelo menos um parâmetro de filtro.' });
-  }
-
-  try {
-    const products = await Product.find({ $and: [filtroData, filtroNome, filtroStatus, filtroUserId] });
-    res.status(200).json(products);
-  } catch (err) {
-    res.status(500).json({ message: 'Erro ao obter os produtos pelos filtros.', error: err.message });
   }
 };
