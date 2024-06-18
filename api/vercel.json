@@ -2,13 +2,13 @@
     "version": 2,
     "rewrites": [
         {
-            "source": "/(.*)",
-            "destination": "/"
+            "source": "../api/(.*)",
+            "destination": "../api"
         }
     ],
     "functions": {
-        "app.js": {
-            "includeFiles": "swagger/swagger_output.json"
+        "../api/app.js": {
+            "includeFiles": "../api/swagger/swagger_output.json"
         }
     }
 }
