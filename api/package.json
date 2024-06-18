@@ -37,7 +37,7 @@
     "swagger-autogen": "^2.23.7"
   },
   "engines": {
-    "node": "18.x",
+    "node": "20.x",
     "npm": "9.x"
   }
 }
