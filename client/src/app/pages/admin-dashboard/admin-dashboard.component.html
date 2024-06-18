@@ -12,12 +12,22 @@
         </button>
 
         <!-- Filter Dropdown -->
-        <div [ngClass]="{'hidden': !filtroVisivel}" class="hidden origin-top-right absolute right-0 mt-2 w-72 rounded-md shadow-lg bg-white ring-1 ring-black ring-opacity-5 divide-y divide-gray-100" role="menu" aria-orientation="vertical" aria-labelledby="filterButton">
-            <div class="py-1" role="none">
+        <div [ngClass]="{'hidden': !filtroVisivel}" class="hidden origin-top-right absolute right-0 mt-2 w-auto rounded-md shadow-lg bg-white ring-2 ring-black ring-opacity-10 divide-y divide-gray-100" role="menu" aria-orientation="vertical" aria-labelledby="filterButton">
+          <div class="w-auto">
+            <!-- Filtro por nome do solicitante -->
+            <div class="px-4 mt-2">
+              <label for="solicitante" class="block text-sm font-medium text-gray-700">Nome do solicitante</label>
+              <input (input)="onFilterChange()" type="text" name="solicitante" id="solicitante" class="my-2 bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5" placeholder="Digite o nome do solicitante">
+            </div>
+          </div>
+          <div class="py-1 flex" role="none">
+
+              <div class="w-60">
+
                 <!-- Filtro por Nome -->
                 <div class="px-4 mt-2">
                     <label for="nome" class="block text-sm font-medium text-gray-700">Nome</label>
-                    <input type="text" name="nome" id="nome" class="my-2 bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5" placeholder="Digite o nome do produto">
+                    <input (input)="onFilterChange()" type="text" name="nome" id="nome" class="my-2 bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5" placeholder="Digite o nome do produto">
                 </div>
 
                 <!-- Filtro por Status -->
@@ -25,28 +35,28 @@
                     <span class="block text-sm font-medium text-gray-700">Status</span>
                     <div class="mt-2 space-y-2">
                         <div class="flex items-center">
-                            <input id="todos" name="status" type="radio" value="" class="focus:ring-indigo-500 h-4 w-4 text-indigo-600 border-gray-300" checked>
+                            <input (change)="onFilterChange()" id="todos" name="status" type="radio" value="" class="focus:ring-indigo-500 h-4 w-4 text-indigo-600 border-gray-300" checked>
                             <span class="ml-3 flex items-center text-sm font-medium text-gray-500">
                               <span class="bg-blue-300 w-3 h-3 me-3 rounded-full"></span>
                               Todos
                             </span>
                         </div>
                         <div class="flex items-center">
-                            <input id="pendente" name="status" type="radio" value="pendente" class="focus:ring-indigo-500 h-4 w-4 text-indigo-600 border-gray-300">
+                            <input (change)="onFilterChange()" id="pendente" name="status" type="radio" value="Pendente" class="focus:ring-indigo-500 h-4 w-4 text-indigo-600 border-gray-300">
                             <span class="ml-3 flex items-center text-sm font-medium text-gray-500">
                               <span class="bg-yellow-300 w-3 h-3 me-3 rounded-full"></span>
                               Pendente
                             </span>
                         </div>
                         <div class="flex items-center">
-                            <input id="negado" name="status" type="radio" value="negado" class="focus:ring-indigo-500 h-4 w-4 text-indigo-600 border-gray-300">
+                            <input (change)="onFilterChange()" id="negado" name="status" type="radio" value="Negado" class="focus:ring-indigo-500 h-4 w-4 text-indigo-600 border-gray-300">
                             <span class="ml-3 flex items-center text-sm font-medium text-gray-500">
                               <span class="bg-red-500 w-3 h-3 me-3 rounded-full"></span>
                               Negado
                             </span>
                         </div>
                         <div class="flex items-center">
-                            <input id="aprovado" name="status" type="radio" value="aprovado" class="focus:ring-indigo-500 h-4 w-4 text-indigo-600 border-gray-300">
+                            <input (change)="onFilterChange()" id="aprovado" name="status" type="radio" value="Aprovado" class="focus:ring-indigo-500 h-4 w-4 text-indigo-600 border-gray-300">
                               <span class="ml-3 flex items-center text-sm font-medium text-gray-500">
                                 <span class="bg-green-500 w-3 h-3 me-3 rounded-full"></span>
                                 Aprovado
@@ -54,36 +64,15 @@
                         </div>
                     </div>
                 </div>
-
-                <!-- Filtro por Tipo -->
-                <div class="px-4 py-3">
-                    <span class="block text-sm font-medium text-gray-700">Tipo</span>
-                    <div class="mt-2 space-y-2">
-                      <div class="flex items-center">
-                        <input id="todos" name="tipo" type="radio" value="" class="focus:ring-indigo-500 h-4 w-4 text-indigo-600 border-gray-300" checked>
-                        <label for="todos" class="ml-3 block text-sm font-medium text-gray-500">Todos</label>
-                    </div>
-                        <div class="flex items-center">
-                            <input id="material-permanente" name="tipo" type="radio" value="material-permanente" class="focus:ring-indigo-500 h-4 w-4 text-indigo-600 border-gray-300">
-                            <label for="material-permanente" class="ml-3 block text-sm font-medium text-gray-500">Material Permanente</label>
-                        </div>
-                        <div class="flex items-center">
-                            <input id="material-consumo" name="tipo" type="radio" value="material-consumo" class="focus:ring-indigo-500 h-4 w-4 text-indigo-600 border-gray-300">
-                            <label for="material-consumo" class="ml-3 block text-sm font-medium text-gray-500">Material de Consumo</label>
-                        </div>
-                        <div class="flex items-center">
-                            <input id="hibrido" name="tipo" type="radio" value="hibrido" class="focus:ring-indigo-500 h-4 w-4 text-indigo-600 border-gray-300">
-                            <label for="hibrido" class="ml-3 block text-sm font-medium text-gray-500">Híbrido</label>
-                        </div>
-                    </div>
-                </div>
+              </div>
+              <div class="w-60">
 
                 <!-- Filtro por Categoria -->
                 <div class="px-4">
-                  <label for="categoria" class="block text-sm font-medium text-gray-700 mb-2 ">
+                  <label for="categoria" class="block text-sm font-medium text-gray-700 my-2">
                     Categoria
                   </label>
-                  <select id="categoria" name="categoria" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5">
+                  <select (change)="onFilterChange()" id="categoria" name="categoria" class="my-2 bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5">
                     <option value="">Todas</option>
                     <option value="material-de-escritorio">Material de Escritório</option>
                     <option value="equipamentos-de-informatica">Equipamentos de Informática</option>
@@ -103,12 +92,56 @@
                     <option value="outro">Outro</option>
                   </select>
                 </div>
-            </div>
 
-            <div class="flex flex-col items-center mx-12 my-2" role="none">
-                <button class="inline-flex items-center px-2.5 py-2.5 text-sm font-medium text-center text-white bg-blue-600 rounded-lg focus:ring-4 focus:ring-blue-100">Aplicar Filtro</button>
+                <!-- Filtro por Tipo -->
+                <div class="px-4 py-3">
+                    <span class="block text-sm font-medium text-gray-700">Tipo</span>
+                    <div class="mt-2 space-y-2">
+                      <div class="flex items-center">
+                        <input (change)="onFilterChange()" id="todos" name="tipo" type="radio" value="" class="focus:ring-indigo-500 h-4 w-4 text-indigo-600 border-gray-300" checked>
+                        <label for="todos" class="ml-3 block text-sm font-medium text-gray-500">Todos</label>
+                    </div>
+                        <div class="flex items-center">
+                            <input (change)="onFilterChange()" id="material-permanente" name="tipo" type="radio" value="material-permanente" class="focus:ring-indigo-500 h-4 w-4 text-indigo-600 border-gray-300">
+                            <label for="material-permanente" class="ml-3 block text-sm font-medium text-gray-500">Material Permanente</label>
+                        </div>
+                        <div class="flex items-center">
+                            <input (change)="onFilterChange()" id="material-de-consumo" name="tipo" type="radio" value="material-de-consumo" class="focus:ring-indigo-500 h-4 w-4 text-indigo-600 border-gray-300">
+                            <label for="material-de-consumo" class="ml-3 block text-sm font-medium text-gray-500">Material de Consumo</label>
+                        </div>
+                        <div class="flex items-center">
+                            <input (change)="onFilterChange()" id="hibrido" name="tipo" type="radio" value="hibrido" class="focus:ring-indigo-500 h-4 w-4 text-indigo-600 border-gray-300">
+                            <label for="hibrido" class="ml-3 block text-sm font-medium text-gray-500">Híbrido</label>
+                        </div>
+                    </div>
+                </div>
             </div>
-        </div>
+          </div>
+          <div class="flex flex-col items-center mx-2 my-2" role="none">
+              <!-- Filtro por data -->
+              <div class="flex items-center mb-3">
+                <div class="relative">
+                  <div class="absolute inset-y-0 start-0 flex items-center ps-3 pointer-events-none">
+                    <svg class="w-4 h-4 text-gray-500" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="currentColor" viewBox="0 0 20 20">
+                      <path d="M20 4a2 2 0 0 0-2-2h-2V1a1 1 0 0 0-2 0v1h-3V1a1 1 0 0 0-2 0v1H6V1a1 1 0 0 0-2 0v1H2a2 2 0 0 0-2 2v2h20V4ZM0 18a2 2 0 0 0 2 2h16a2 2 0 0 0 2-2V8H0v10Zm5-8h10a1 1 0 0 1 0 2H5a1 1 0 1 0 0-2Z"/>
+                    </svg>
+                  </div>
+                  <input name="start" id="startDate" type="date" (change)="onFilterChange()" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full ps-10 p-2.5">
+                </div>
+                <span class="mx-4 text-gray-500">até</span>
+                <div class="relative">
+                  <div class="absolute inset-y-0 start-0 flex items-center ps-3 pointer-events-none">
+                    <svg class="w-4 h-4 text-gray-500" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="currentColor" viewBox="0 0 20 20">
+                      <path d="M20 4a2 2 0 0 0-2-2h-2V1a1 1 0 0 0-2 0v1h-3V1a1 1 0 0 0-2 0v1H6V1a1 1 0 0 0-2 0v1H2a2 2 0 0 0-2 2v2h20V4ZM0 18a2 2 0 0 0 2 2h16a2 2 0 0 0 2-2V8H0v10Zm5-8h10a1 1 0 0 1 0 2H5a1 1 0 1 0 0-2Z"/>
+                    </svg>
+                  </div>
+                  <input name="end" id="endDate" type="date" (change)="onFilterChange()" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full ps-10 p-2.5">
+                </div>
+              </div>
+
+              <button class="inline-flex items-center px-2.5 py-2.5 text-sm font-medium text-center text-white bg-blue-600 rounded-lg focus:ring-4 focus:ring-blue-100" (click)="resetFilters()">Limpar Filtros</button>
+          </div>
+      </div>
       </div>
     </div>
     <table class="w-full text-sm text-left text-gray-500">

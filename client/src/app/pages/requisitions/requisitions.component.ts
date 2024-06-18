@@ -4,6 +4,7 @@ import { ProductsService } from './../../service/products.service';
 import { debounceTime, distinctUntilChanged, switchMap } from 'rxjs/operators';
 import { Subject } from 'rxjs';
 import { NgForm } from '@angular/forms';
+import {Title} from "@angular/platform-browser";
 
 @Component({
   selector: 'app-requisitions',
@@ -18,7 +19,10 @@ export class RequisitionsComponent implements OnInit {
 
   @ViewChild('requisicaoForm') requisicaoForm!: NgForm; // Referência ao formulário
 
-  constructor(private searchBecService: SearchBecService, public productsService: ProductsService) {}
+  constructor(private searchBecService: SearchBecService, public productsService: ProductsService, private titleService:Title) {
+    this.titleService.setTitle("Solicitar Produto");
+  }
+
 
   ngOnInit(): void {
     this.searchTerms.pipe(
@@ -96,12 +100,27 @@ export class RequisitionsComponent implements OnInit {
 
     const nome = formData.get('nome') as string;
     const tipo = formData.get('tipo') as string;
-    const quantidade = formData.get('quantidade') as string;
+    const quantidadeValue = formData.get('quantidade') as unknown as number;
     const categoria = formData.get('categoria') as string;
 
-    if (!nome || !tipo || !quantidade || !categoria) {
+    if (!nome || !tipo || !quantidadeValue || !categoria) {
       this.hideSuccessMessage()
       this.showErrorMessage();
+      return;
+    }
+    let quantidade: number;
+
+    if (typeof quantidadeValue === 'number' && Number.isInteger(quantidadeValue)) {
+      quantidade = quantidadeValue;
+    } else if (typeof quantidadeValue === 'string') {
+      quantidade = parseInt(quantidadeValue, 10);
+    } else {
+      alert("Quantidade inválida");
+      return;
+    }
+
+    if (quantidade <= 0) {
+      alert("Quantidade inválida");
       return;
     }
 

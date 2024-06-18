@@ -1,6 +1,7 @@
 import { Component, HostListener, OnInit } from '@angular/core';
 import { ProductsService } from './../../service/products.service';
 import { MatDialog } from '@angular/material/dialog';
+import {Title} from "@angular/platform-browser";
 
 @Component({
   selector: 'app-historic',
@@ -13,6 +14,16 @@ export class HistoricComponent implements OnInit {
   itemsPerPage = 5;
   paginatedProducts: any[] = [];
   pages: number[] = [];
+  filteredProducts: any[] = [];
+
+  filters = {
+    nome: '',
+    status: '',
+    categoria: '',
+    tipo: '',
+    startDate: '',
+    endDate: ''
+  };
 
   popoverTitle: string = '';
   popoverContent: string = '';
@@ -21,7 +32,9 @@ export class HistoricComponent implements OnInit {
   isDetailsModalOpen: boolean = false;
   isJustificativaModalOpen: boolean = false;
 
-  constructor(private productService: ProductsService, public dialog: MatDialog) {}
+  constructor(private productService: ProductsService, public dialog: MatDialog, private titleService:Title) {
+    this.titleService.setTitle("Histórico");
+  }
 
   ngOnInit(): void {
     this.getProducts();
@@ -36,6 +49,7 @@ export class HistoricComponent implements OnInit {
       (data) => {
         this.products = data;
         this.sortProductsByDate();
+        this.filteredProducts = this.products.slice();
         this.paginate();
       },
       (error) => {
@@ -64,10 +78,10 @@ export class HistoricComponent implements OnInit {
   }
 
   paginate() {
-    if (this.products.length > 0) {
+    if (this.filteredProducts.length > 0) {
       const startIndex = (this.currentPage - 1) * this.itemsPerPage;
       const endIndex = startIndex + this.itemsPerPage;
-      this.paginatedProducts = this.products.slice(startIndex, endIndex);
+      this.paginatedProducts = this.filteredProducts.slice(startIndex, endIndex);
       this.generatePages();
     } else {
       this.paginatedProducts = [];
@@ -75,7 +89,7 @@ export class HistoricComponent implements OnInit {
   }
 
   generatePages() {
-    if (this.products && this.products.length > 0) {
+    if (this.filteredProducts && this.filteredProducts.length > 0) {
       const totalPages = this.totalPages();
       this.pages = Array.from({ length: totalPages }, (_, i) => i + 1);
     } else {
@@ -91,8 +105,8 @@ export class HistoricComponent implements OnInit {
   }
 
   totalPages(): number {
-    if (this.products && this.products.length > 0) {
-      return Math.ceil(this.products.length / this.itemsPerPage);
+    if (this.filteredProducts && this.filteredProducts.length > 0) {
+      return Math.ceil(this.filteredProducts.length / this.itemsPerPage);
     }
     return 0;
   }
@@ -325,4 +339,97 @@ export class HistoricComponent implements OnInit {
     this.fillJustificativaForm(product);
   }
 
+
+
+  parseDateString(dateString: string): Date | null {
+    let dateParts: string[] = [];
+    if (dateString.includes('/')) {
+        dateParts = dateString.split('/');
+    } else if (dateString.includes('-')) {
+        dateParts = dateString.split('-');
+    } else {
+        return null;
+    }
+
+    if (dateParts.length === 3) {
+        let year: number, month: number, day: number;
+
+        if (dateString.includes('/')) {
+            day = parseInt(dateParts[0], 10);
+            month = parseInt(dateParts[1], 10) - 1;
+            year = parseInt(dateParts[2], 10);
+        } else {
+            year = parseInt(dateParts[0], 10);
+            month = parseInt(dateParts[1], 10) - 1;
+            day = parseInt(dateParts[2], 10);
+        }
+
+        return new Date(year, month, day);
+    } else {
+        return null;
+    }
+}
+  onFilterChange(): void {
+    const nome = (document.getElementById('nome') as HTMLInputElement).value;
+    const status = (document.querySelector('input[name="status"]:checked') as HTMLInputElement)?.value || '';
+    const categoria = (document.getElementById('categoria') as HTMLSelectElement).value;
+    const tipo = (document.querySelector('input[name="tipo"]:checked') as HTMLInputElement)?.value || '';
+    const startDate = (document.getElementById('startDate') as HTMLInputElement).value;
+    const endDate = (document.getElementById('endDate') as HTMLInputElement).value;
+
+    this.filters = { nome, status, categoria, tipo, startDate, endDate };
+
+    this.applyFilters();
+  }
+
+  applyFilters(): void {
+    this.filteredProducts = this.products.filter(product => {
+      const productDate = this.parseDateString(product.data);
+      if (!productDate) {
+        console.warn(`Data inválida no produto: ${product.data}`);
+        return false;
+      }
+
+      const startDate = this.filters.startDate ? this.parseDateString(this.filters.startDate) : null;
+      const endDate = this.filters.endDate ? this.parseDateString(this.filters.endDate) : null;
+
+      const isAfterStartDate = startDate ? productDate >= startDate : true;
+      const isBeforeEndDate = endDate ? productDate <= endDate : true;
+
+
+      return (
+        (!this.filters.nome || product.nome.toLowerCase().includes(this.filters.nome.toLowerCase())) &&
+        (!this.filters.status || product.status === this.filters.status) &&
+        (!this.filters.categoria || product.categoria === this.filters.categoria) &&
+        (!this.filters.tipo || product.tipo === this.filters.tipo) &&
+        isAfterStartDate &&
+        isBeforeEndDate
+      );
+    });
+
+    this.currentPage = 1;
+    this.paginate();
+  }
+
+  resetFilters(): void {
+    this.filters = {
+      nome: '',
+      status: '',
+      categoria: '',
+      tipo: '',
+      startDate: '',
+      endDate: ''
+    };
+
+    (document.getElementById('nome') as HTMLInputElement).value = '';
+    (document.getElementById('categoria') as HTMLSelectElement).value = '';
+    const statusInput = document.querySelector('input[name="status"]:checked') as HTMLInputElement;
+    if (statusInput) statusInput.checked = false;
+    const tipoInput = document.querySelector('input[name="tipo"]:checked') as HTMLInputElement;
+    if (tipoInput) tipoInput.checked = false;
+    (document.getElementById('startDate') as HTMLInputElement).value = '';
+    (document.getElementById('endDate') as HTMLInputElement).value = '';
+
+    this.applyFilters();
+  }
 }

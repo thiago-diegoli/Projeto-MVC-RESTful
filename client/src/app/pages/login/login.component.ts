@@ -2,6 +2,7 @@
 import { Component } from '@angular/core';
 import { AuthService } from './../../service/auth.service';
 import { Router } from '@angular/router';
+import {Title} from "@angular/platform-browser";
 
 @Component({
   selector: 'app-login',
@@ -14,7 +15,9 @@ export class LoginComponent {
   errorMessage: string = '';
   rememberLogin: boolean = false;
 
-  constructor(private authService: AuthService, private router: Router) { }
+  constructor(private authService: AuthService, private router: Router, private titleService:Title) {
+    this.titleService.setTitle("Login");
+  }
 
   ngOnInit() {
     const savedCredentials = localStorage.getItem('savedCredentials');
