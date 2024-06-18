@@ -47,4 +47,11 @@ export class ProductsService {
 
     return this.http.post(`${this.apiUrl}/`, productData, { headers });
   }
+
+  updateStatusProduct(productData: any): Observable<any> {
+    const token = localStorage.getItem('access_token');
+    const headers = new HttpHeaders().set('access-token', `${token}`);
+    const id = productData._id
+    return this.http.put(`${this.apiUrl}/aprove/${id}`, productData, { headers });
+  }
 }

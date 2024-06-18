@@ -19,6 +19,7 @@ export class HistoricComponent implements OnInit {
   popoverNameVisible: boolean[] = [];
   popoverDescriptionVisible: boolean[] = [];
   isDetailsModalOpen: boolean = false;
+  isJustificativaModalOpen: boolean = false;
 
   constructor(private productService: ProductsService, public dialog: MatDialog) {}
 
@@ -259,10 +260,6 @@ export class HistoricComponent implements OnInit {
     }
   }
 
-  verJustificativa() {
-    // Implemente a função de ver justificativa aqui, caso necessário
-  }
-
   openDetailsModal() {
     this.isDetailsModalOpen = true;
     const modal = document.getElementById('detailsModal');
@@ -295,4 +292,37 @@ export class HistoricComponent implements OnInit {
     this.openDetailsModal();
     this.fillDetailsForm(product);
   }
+
+  openJustificativaModal() {
+    this.isJustificativaModalOpen = true;
+    const modal = document.getElementById('justificativaModal');
+    if (modal) {
+      modal.classList.remove('hidden');
+    }
+  }
+
+  closeJustificativaModal() {
+    this.isJustificativaModalOpen = false;
+    const modal = document.getElementById('justificativaModal');
+    if (modal) {
+      modal.classList.add('hidden');
+    }
+  }
+
+  fillJustificativaForm(product: any) {
+    const form = document.getElementById('justificativaForm') as HTMLFormElement;
+    if (form) {
+      const justificativaElement = form.elements.namedItem('justificativa') as HTMLTextAreaElement;
+      justificativaElement.value = product.justificativa && product.justificativa.trim() !== ''
+        ? product.justificativa
+        : 'Nenhuma justificativa fornecida.';
+    }
+  }
+
+  verJustificativa(product: any) {
+    this.selectedProduct = product;
+    this.openJustificativaModal();
+    this.fillJustificativaForm(product);
+  }
+
 }

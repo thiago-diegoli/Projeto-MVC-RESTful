@@ -18,6 +18,10 @@ export class AdminDashboardComponent implements OnInit {
   popoverContent: string = '';
   popoverNameVisible: boolean[] = [];
   popoverDescriptionVisible: boolean[] = [];
+  isDetailsModalOpen: boolean = false;
+  isAproveModalOpen: boolean = false;
+  isDisaproveModalOpen: boolean = false;
+  isJustificativaModalOpen: boolean = false;
 
   constructor(private productService: ProductsService, public dialog: MatDialog) {}
 
@@ -158,62 +162,6 @@ export class AdminDashboardComponent implements OnInit {
     this.selectedProduct = null;
   }
 
-  openEditModal() {
-    this.isEditModalOpen = true;
-    const modal = document.getElementById('modal');
-    if (modal) {
-      modal.classList.remove('hidden');
-    }
-  }
-
-  closeEditModal() {
-    this.isEditModalOpen = false;
-    const modal = document.getElementById('modal');
-    if (modal) {
-      modal.classList.add('hidden');
-    }
-  }
-
-  openCancelModal() {
-    this.isCancelModalOpen = true;
-    const modal = document.getElementById('popup-modal');
-    if (modal) {
-      modal.classList.remove('hidden');
-    }
-  }
-
-  closeCancelModal() {
-    this.isCancelModalOpen = false;
-    const modal = document.getElementById('popup-modal');
-    if (modal) {
-      modal.classList.add('hidden');
-    }
-  }
-
-  fillEditForm(product: any) {
-    const form = document.getElementById('editForm') as HTMLFormElement;
-    if (form) {
-      (form.elements.namedItem('editId') as HTMLInputElement).value = product._id;
-      (form.elements.namedItem('editNome') as HTMLInputElement).value = product.nome;
-      (form.elements.namedItem('editQuantidade') as HTMLInputElement).value = product.quantidade;
-      (form.elements.namedItem('editDescricao') as HTMLTextAreaElement).value = product.descricao;
-      (form.elements.namedItem('editTipo') as HTMLSelectElement).value = product.tipo;
-      (form.elements.namedItem('editCategoria') as HTMLSelectElement).value = product.categoria;
-    }
-  }
-
-  editar() {
-    this.openEditModal();
-    if (this.selectedProduct) {
-      this.fillEditForm(this.selectedProduct);
-    }
-  }
-
-  cancelar(product: any) {
-    this.selectedProduct = product;
-    this.openCancelModal();
-  }
-
   @HostListener('document:click', ['$event'])
   onDocumentClick(event: MouseEvent) {
     const targetElement = event.target as HTMLElement;
@@ -222,46 +170,151 @@ export class AdminDashboardComponent implements OnInit {
     }
   }
 
-  editarProduto() {
+  openJustificativaModal() {
+    this.isJustificativaModalOpen = true;
+    const modal = document.getElementById('justificativaModal');
+    if (modal) {
+      modal.classList.remove('hidden');
+    }
+  }
+
+  closeJustificativaModal() {
+    this.isJustificativaModalOpen = false;
+    const modal = document.getElementById('justificativaModal');
+    if (modal) {
+      modal.classList.add('hidden');
+    }
+  }
+
+  fillJustificativaForm(product: any) {
+    const form = document.getElementById('justificativaForm') as HTMLFormElement;
+    if (form) {
+      const justificativaElement = form.elements.namedItem('justificativa') as HTMLTextAreaElement;
+      justificativaElement.value = product.justificativa && product.justificativa.trim() !== ''
+        ? product.justificativa
+        : 'Nenhuma justificativa fornecida.';
+    }
+  }
+
+  verJustificativa(product: any) {
+    this.selectedProduct = product;
+    this.openJustificativaModal();
+    this.fillJustificativaForm(product);
+  }
+
+  openDetailsModal() {
+    this.isDetailsModalOpen = true;
+    const modal = document.getElementById('detailsModal');
+    if (modal) {
+      modal.classList.remove('hidden');
+    }
+  }
+
+  closeDetailsModal() {
+    this.isDetailsModalOpen = false;
+    const modal = document.getElementById('detailsModal');
+    if (modal) {
+      modal.classList.add('hidden');
+    }
+  }
+
+  fillDetailsForm(product: any) {
+    const form = document.getElementById('detailsForm') as HTMLFormElement;
+    if (form) {
+      (form.elements.namedItem('detailsNome') as HTMLInputElement).value = product.nome;
+      (form.elements.namedItem('detailsQuantidade') as HTMLInputElement).value = product.quantidade;
+      (form.elements.namedItem('detailsDescricao') as HTMLTextAreaElement).value = product.descricao;
+      (form.elements.namedItem('detailsTipo') as HTMLInputElement).value = product.tipo;
+      (form.elements.namedItem('detailsCategoria') as HTMLInputElement).value = product.categoria;
+    }
+  }
+
+  verDetalhes(product: any) {
+    this.selectedProduct = product;
+    this.openDetailsModal();
+    this.fillDetailsForm(product);
+  }
+
+  aprovar(product: any) {
+    this.selectedProduct = product;
+    if(product){
+      this.openAproveModal();
+    }
+  }
+
+  openAproveModal() {
+    this.isAproveModalOpen = true;
+    const modal = document.getElementById('popup-modal-aprove');
+    if (modal) {
+      modal.classList.remove('hidden');
+    }
+  }
+
+  closeAproveModal() {
+    this.isAproveModalOpen = false;
+    const modal = document.getElementById('popup-modal-aprove');
+    if (modal) {
+      modal.classList.add('hidden');
+    }
+  }
+  confirmarAprovamento(){
+    const product = this.selectedProduct;
     const productData = {
-      _id: (document.getElementById('editId') as HTMLInputElement).value,
-      nome: (document.getElementById('editNome') as HTMLInputElement).value,
-      tipo: (document.getElementById('editTipo') as HTMLInputElement).value,
-      quantidade: +(document.getElementById('editQuantidade') as HTMLInputElement).value,
-      categoria: (document.getElementById('editCategoria') as HTMLInputElement).value,
-      descricao: (document.getElementById('editDescricao') as HTMLTextAreaElement).value
+      _id: product._id,
+      status: 'Aprovado'
     };
 
-    this.productService.updateProduct(productData).subscribe(
+    this.productService.updateStatusProduct(productData).subscribe(
       response => {
-        this.closeEditModal();
         this.getProducts();
+        this.closeAproveModal();
       },
       error => {
-        console.error('Erro ao atualizar o produto', error);
+        console.error('Erro ao deletar o produto:', error);
+        this.closeAproveModal();
       }
     );
   }
 
-  confirmarCancelamento() {
-    if (this.selectedProduct) {
-      this.productService.deleteProduct(this.selectedProduct._id).subscribe(
-        response => {
-          this.getProducts();
-          this.closeCancelModal();
-        },
-        error => {
-          console.error('Erro ao deletar o produto:', error);
-          this.closeCancelModal();
-        }
-      );
+  negar(product: any) {
+    this.selectedProduct = product;
+    if(product){
+      this.openDisaproveModal();
     }
   }
 
-  verDetalhes() {
-
+  openDisaproveModal() {
+    this.isDisaproveModalOpen = true;
+    const modal = document.getElementById('popup-modal-disaprove');
+    if (modal) {
+      modal.classList.remove('hidden');
+    }
   }
-  verJustificativa() {
 
+  closeDisaproveModal() {
+    this.isDisaproveModalOpen = false;
+    const modal = document.getElementById('popup-modal-disaprove');
+    if (modal) {
+      modal.classList.add('hidden');
+    }
+  }
+  confirmarDesaprovamento(){
+    const product = this.selectedProduct;
+    const productData = {
+      _id: product._id,
+      status: 'Negado',
+      justificativa: (document.getElementById('inputJustificativa') as HTMLTextAreaElement).value || ''
+    };
+
+    this.productService.updateStatusProduct(productData).subscribe(
+      response => {
+        this.getProducts();
+        this.closeDisaproveModal();
+      },
+      error => {
+        console.error('Erro ao deletar o produto:', error);
+        this.closeDisaproveModal();
+      }
+    );
   }
 }

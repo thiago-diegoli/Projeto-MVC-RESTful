@@ -94,6 +94,68 @@ export class RequisitionsComponent implements OnInit {
     const form = document.getElementById('requisicao') as HTMLFormElement;
     const formData = new FormData(form);
 
+    const nome = formData.get('nome') as string;
+    const tipo = formData.get('tipo') as string;
+    const quantidade = formData.get('quantidade') as string;
+    const categoria = formData.get('categoria') as string;
+
+    if (!nome || !tipo || !quantidade || !categoria) {
+      this.hideSuccessMessage()
+      this.showErrorMessage();
+      return;
+    }
+
+    this.hideErrorMessage();
+
+    this.openConfirmModal();
+  }
+
+  showErrorMessage() {
+    const errorMessage = document.getElementById('fill-all');
+    if (errorMessage) {
+      errorMessage.classList.remove('hidden');
+    }
+  }
+
+  showSuccessMessage() {
+    const successMessage = document.getElementById('success');
+    if (successMessage) {
+      successMessage.classList.remove('hidden');
+    }
+  }
+
+  hideErrorMessage() {
+    const errorMessage = document.getElementById('fill-all');
+    if (errorMessage) {
+      errorMessage.classList.add('hidden');
+    }
+  }
+
+  hideSuccessMessage() {
+    const successMessage = document.getElementById('success');
+    if (successMessage) {
+      successMessage.classList.add('hidden');
+    }
+  }
+
+  openConfirmModal() {
+    const modal = document.getElementById('popup-modal');
+    if (modal) {
+      modal.classList.remove('hidden');
+    }
+  }
+
+  closeConfirmModal() {
+    const modal = document.getElementById('popup-modal');
+    if (modal) {
+      modal.classList.add('hidden');
+    }
+  }
+
+  confirmarCadastro() {
+    const form = document.getElementById('requisicao') as HTMLFormElement;
+    const formData = new FormData(form);
+
     const productData = {
       nome: formData.get('nome') as string,
       tipo: formData.get('tipo') as string,
@@ -115,20 +177,19 @@ export class RequisitionsComponent implements OnInit {
         productData.tipo = 'outro';
       }
     }
+
     this.productsService.insertProduct(productData).subscribe(
       response => {
-        this.resetForm();  // Resetar o formulário após uma submissão bem-sucedida
+        this.closeConfirmModal();
+        this.showSuccessMessage();
+        const form = document.getElementById('requisicao') as HTMLFormElement;
+        if (form) {
+          form.reset();
+        }
       },
       error => {
         console.error('Erro ao cadastrar o produto:', error);
       }
     );
-  }
-
-  resetForm(): void {
-    this.requisicaoForm.resetForm();  // Método para resetar o formulário
-    this.produtos = [];  // Limpar a lista de produtos selecionados
-    this.informacoes = null;  // Limpar as informações
-    this.mostrarPesquisaBec = false;  // Resetar o estado de exibição da pesquisa
   }
 }

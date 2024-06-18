@@ -114,9 +114,8 @@
     <table class="w-full text-sm text-left text-gray-500">
       <thead class="text-xs text-gray-700 uppercase bg-gray-50">
         <tr>
-          <th scope="col" class="px-6 py-3">Nome</th>
-          <th scope="col" class="px-6 py-3">Qntd.</th>
-          <th scope="col" class="px-6 py-3">Descrição</th>
+          <th scope="col" class="px-6 py-3">Solicitante</th>
+          <th scope="col" class="px-6 py-3">Produto</th>
           <th scope="col" class="px-6 py-3">Data</th>
           <th scope="col" class="px-6 py-3">Status</th>
           <th scope="col" class="px-6 py-3">Opções</th>
@@ -124,6 +123,22 @@
       </thead>
       <tbody>
         <tr *ngFor="let product of paginatedProducts" class="bg-white border-b">
+          <td class="px-6 py-4">
+            <span *ngIf="isTextTooLong(product.userId.nome)">
+              <span class="flex product-name font-medium cursor-pointer" (click)="togglePopoverName(product)">{{ product.userId.nome.slice(0, 20) }}... &nbsp;
+                <svg class="w-3 h-3 text-gray-800" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="currentColor" viewBox="0 0 18 18">
+                  <path d="M17 0h-5.768a1 1 0 1 0 0 2h3.354L8.4 8.182A1.003 1.003 0 1 0 9.818 9.6L16 3.414v3.354a1 1 0 0 0 2 0V1a1 1 0 0 0-1-1Z"/>
+                  <path d="m14.258 7.985-3.025 3.025A3 3 0 1 1 6.99 6.768l3.026-3.026A3.01 3.01 0 0 1 8.411 2H2.167A2.169 2.169 0 0 0 0 4.167v11.666A2.169 2.169 0 0 0 2.167 18h11.666A2.169 2.169 0 0 0 16 15.833V9.589a3.011 3.011 0 0 1-1.742-1.604Z"/>
+                </svg>
+              </span>
+              <app-popover *ngIf="popoverNameVisible[products.indexOf(product)]"
+             [title]="popoverTitle"
+             [content]="popoverContent"
+             (visibilityChange)="handlePopoverVisibilityChange($event)"></app-popover>
+            </span>
+            <span class="font-medium" *ngIf="!isTextTooLong(product.userId.nome)">{{ product.userId.nome}}</span>
+          </td>
+
           <td class="px-6 py-4">
             <span *ngIf="isTextTooLong(product.nome)">
               <span class="flex product-name font-medium cursor-pointer" (click)="togglePopoverName(product)">{{ product.nome.slice(0, 20) }}... &nbsp;
@@ -138,22 +153,6 @@
              (visibilityChange)="handlePopoverVisibilityChange($event)"></app-popover>
             </span>
             <span class="font-medium" *ngIf="!isTextTooLong(product.nome)">{{ product.nome }}</span>
-          </td>
-          <td class="px-6 py-4">{{ product.quantidade }}</td>
-          <td class="px-6 py-4">
-            <span *ngIf="isTextTooLong(product.descricao)">
-              <span class="flex product-description cursor-pointer" (click)="togglePopoverDescription(product)">{{ product.descricao.slice(0, 20) }}... &nbsp;
-                <svg class="w-3 h-3 text-gray-800" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="currentColor" viewBox="0 0 18 18">
-                  <path d="M17 0h-5.768a1 1 0 1 0 0 2h3.354L8.4 8.182A1.003 1.003 0 1 0 9.818 9.6L16 3.414v3.354a1 1 0 0 0 2 0V1a1 1 0 0 0-1-1Z"/>
-                  <path d="m14.258 7.985-3.025 3.025A3 3 0 1 1 6.99 6.768l3.026-3.026A3.01 3.01 0 0 1 8.411 2H2.167A2.169 2.169 0 0 0 0 4.167v11.666A2.169 2.169 0 0 0 2.167 18h11.666A2.169 2.169 0 0 0 16 15.833V9.589a3.011 3.011 0 0 1-1.742-1.604Z"/>
-                </svg>
-              </span>
-              <app-popover *ngIf="popoverDescriptionVisible[products.indexOf(product)]"
-             [title]="popoverTitle"
-             [content]="popoverContent"
-             (visibilityChange)="handlePopoverVisibilityChange($event)"></app-popover>
-            </span>
-            <span *ngIf="!isTextTooLong(product.descricao)">{{ product.descricao }}</span>
           </td>
 
           <td class="px-6 py-4">{{ product.data }}</td>
@@ -180,26 +179,40 @@
                 <ul class="border py-2">
                   <ng-container *ngIf="product.status === 'Aprovado'">
                     <li>
-                      <a (click)="verDetalhes()" class="cursor-pointer px-4 py-2 text-sm text-gray-700 hover:bg-gray-100">Ver detalhes</a>
+                      <a (click)="verDetalhes(product)" class="cursor-pointer px-4 py-2 text-sm text-gray-700 hover:bg-gray-100">Ver detalhes</a>
                     </li>
                   </ng-container>
                   <ng-container *ngIf="product.status === 'Negado'">
                     <li>
-                      <a (click)="verDetalhes()" class="cursor-pointer block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100">Ver detalhes</a>
+                      <a (click)="verDetalhes(product)" class="cursor-pointer block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100">Ver detalhes</a>
                     </li>
                     <li>
-                      <a (click)="verJustificativa()" class="cursor-pointer block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100">Ver justificativa</a>
+                      <a (click)="verJustificativa(product)" class="cursor-pointer block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100">Ver justificativa</a>
                     </li>
                   </ng-container>
                   <ng-container *ngIf="product.status === 'Pendente'">
                     <li>
-                      <a (click)="verDetalhes()" class="cursor-pointer block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100">Ver detalhes</a>
+                      <a (click)="verDetalhes(product)" class="cursor-pointer block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100">Ver detalhes</a>
                     </li>
                     <li>
-                      <a (click)="editar()" class="cursor-pointer block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100">Editar</a>
+                      <a (click)="aprovar(product)" class="cursor-pointer block px-4 py-2 text-sm text-green-700 hover:bg-gray-100">
+                        <div class="flex flex-row">
+                          <p>Aprovar &nbsp;</p>
+                          <svg class="w-4 h-4" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="none" viewBox="0 0 24 24">
+                            <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 11.917 9.724 16.5 19 7.5"/>
+                          </svg>
+                        </div>
+                      </a>
                     </li>
                     <li>
-                      <a (click)="cancelar(product)" class="cursor-pointer block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100">Cancelar pedido</a>
+                      <a (click)="negar(product)" class="cursor-pointer block px-4 py-2 text-sm text-red-700 hover:bg-gray-100">
+                        <div class="flex flex-row">
+                          <p>Negar &nbsp;</p>
+                          <svg class="w-4 h-4" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="none" viewBox="0 0 24 24">
+                            <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18 17.94 6M18 18 6.06 6"/>
+                          </svg>
+                        </div>
+                      </a>
                     </li>
                   </ng-container>
                 </ul>
@@ -241,4 +254,128 @@
     </ul>
   </nav>
 </div>
+
+
+
+<div id="detailsModal" class="fixed z-10 inset-0 overflow-y-auto hidden" aria-labelledby="modal-title" role="dialog" aria-modal="true">
+  <div class="flex items-end justify-center min-h-screen pt-4 px-4 pb-20 text-center sm:block sm:p-0">
+    <div class="fixed inset-0 bg-gray-500 bg-opacity-75 transition-opacity" aria-hidden="true"></div>
+    <span class="hidden sm:inline-block sm:align-middle sm:h-screen" aria-hidden="true">&#8203;</span>
+    <div class="inline-block align-bottom bg-white rounded-lg text-left overflow-hidden shadow-xl transform transition-all sm:my-8 sm:align-middle sm:max-w-lg sm:w-full" role="dialog" aria-labelledby="modal-title" aria-describedby="modal-description">
+      <div class="bg-blue px-4 pt-5 pb-4 sm:p-6 sm:pb-4">
+        <div>
+          <div class="mt-3 text-center sm:mt-0 sm:ml-4 sm:text-left">
+            <h3 class="text-lg leading-6 font-medium text-gray-900" id="modal-title">Detalhes do Produto</h3>
+            <div class="mt-2">
+              <form id="detailsForm" class="grid grid-cols-1 gap-y-6">
+                <div>
+                  <label for="detailsNome" class="block text-sm font-medium text-gray-700">Nome</label>
+                  <input type="text" name="detailsNome" id="detailsNome" class="mt-1 p-2 focus:ring-blue-500 focus:border-blue-500 block w-full shadow-sm sm:text-sm border border-gray-300 rounded-md" readonly>
+                </div>
+                <div>
+                  <label for="detailsTipo" class="block text-sm font-medium text-gray-700">Tipo</label>
+                  <input type="text" name="detailsTipo" id="detailsTipo" class="mt-1 p-2 focus:ring-blue-500 focus:border-blue-500 block w-full shadow-sm sm:text-sm border border-gray-300 rounded-md" readonly>
+                </div>
+                <div>
+                  <label for="detailsQuantidade" class="block text-sm font-medium text-gray-700">Quantidade</label>
+                  <input type="number" name="detailsQuantidade" id="detailsQuantidade" class="mt-1 p-2 focus:ring-blue-500 focus:border-blue-500 block w-full shadow-sm sm:text-sm border border-gray-300 rounded-md" readonly>
+                </div>
+                <div>
+                  <label for="detailsCategoria" class="block text-sm font-medium text-gray-700">Categoria</label>
+                  <input type="text" name="detailsCategoria" id="detailsCategoria" class="mt-1 p-2 focus:ring-blue-500 focus:border-blue-500 block w-full shadow-sm sm:text-sm border border-gray-300 rounded-md" readonly>
+                </div>
+                <div>
+                  <label for="detailsDescricao" class="block text-sm font-medium text-gray-700">Descrição</label>
+                  <textarea id="detailsDescricao" name="detailsDescricao" rows="3" class="mt-1 p-2 focus:ring-blue-500 focus:border-blue-500 block w-full shadow-sm sm:text-sm border border-gray-300 rounded-md" readonly></textarea>
+                </div>
+              </form>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="bg-gray-50 px-4 py-3 sm:px-6 sm:flex sm:flex-row-reverse">
+        <button id="closeDetailsModal" (click)="closeDetailsModal()" type="button" class="mt-3 w-full inline-flex justify-center rounded-md border border-gray-300 shadow-sm px-4 py-2 bg-white text-base font-medium text-gray-700 hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500 sm:mt-0 sm:w-auto sm:text-sm">
+          Fechar
+        </button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div id="justificativaModal" class="fixed z-10 inset-0 overflow-y-auto hidden" aria-labelledby="modal-title" role="dialog" aria-modal="true">
+  <div class="flex items-end justify-center min-h-screen pt-4 px-4 pb-20 text-center sm:block sm:p-0">
+    <div class="fixed inset-0 bg-gray-500 bg-opacity-75 transition-opacity" aria-hidden="true"></div>
+    <span class="hidden sm:inline-block sm:align-middle sm:h-screen" aria-hidden="true">&#8203;</span>
+    <div class="inline-block align-bottom bg-white rounded-lg text-left overflow-hidden shadow-xl transform transition-all sm:my-8 sm:align-middle sm:max-w-lg sm:w-full" role="dialog" aria-labelledby="modal-title" aria-describedby="modal-description">
+      <div class="bg-blue px-4 pt-5 pb-4 sm:p-6 sm:pb-4">
+        <div>
+          <div class="mt-3 text-center sm:mt-0 sm:ml-4 sm:text-left">
+            <h3 class="text-lg leading-6 font-medium text-gray-900" id="modal-title">Justificativa do Produto</h3>
+            <div class="mt-2">
+              <form id="justificativaForm" class="grid grid-cols-1 gap-y-6">
+                <div>
+                  <textarea id="justificativa" name="justificativa" rows="6" class="mt-1 p-2 focus:ring-blue-500 focus:border-blue-500 block w-full shadow-sm sm:text-sm border border-gray-300 rounded-md" readonly></textarea>
+                </div>
+              </form>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="bg-gray-50 px-4 py-3 sm:px-6 sm:flex sm:flex-row-reverse">
+        <button id="closeJustificativaModal" (click)="closeJustificativaModal()" type="button" class="mt-3 w-full inline-flex justify-center rounded-md border border-gray-300 shadow-sm px-4 py-2 bg-white text-base font-medium text-gray-700 hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500 sm:mt-0 sm:w-auto sm:text-sm">
+          Fechar
+        </button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div id="popup-modal-aprove" tabindex="-1" class="hidden fixed inset-0 z-50 flex justify-center items-center">
+  <div class="relative p-4 w-full max-w-md max-h-full">
+      <div class="relative border-2 bg-white rounded-lg shadow">
+          <button (click)="closeAproveModal()" type="button" class="absolute top-3 right-2.5 text-gray-400 bg-transparent hover:bg-gray-200 hover:text-gray-900 rounded-lg text-sm w-8 h-8 ms-auto inline-flex justify-center items-center" data-modal-hide="popup-modal">
+              <svg class="w-3 h-3" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 14 14">
+                  <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="m1 1 6 6m0 0 6 6M7 7l6-6M7 7l-6 6"/>
+              </svg>
+              <span class="sr-only">Fechar Modal</span>
+          </button>
+          <div class="p-4 md:p-5 text-center">
+              <svg class="mx-auto mb-4 text-gray-400 w-12 h-12" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 20 20">
+                  <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 11V6m0 8h.01M19 10a9 9 0 1 1-18 0 9 9 0 0 1 18 0Z"/>
+              </svg>
+              <h3 class="mb-5 text-lg font-normal text-gray-500">Tem certeza que quer aprovar esta solicitação?</h3>
+              <button (click)="confirmarAprovamento()" data-modal-hide="popup-modal" type="button" class="text-white bg-green-600 hover:bg-green-800 focus:ring-4 focus:outline-none focus:ring-green-300 font-medium rounded-lg text-sm inline-flex items-center px-5 py-2.5 text-center">
+                  Sim, tenho certeza
+              </button>
+              <button (click)="closeAproveModal()" data-modal-hide="popup-modal" type="button" class="py-2.5 px-5 ms-3 text-sm font-medium text-gray-900 focus:outline-none bg-white rounded-lg border border-gray-200 hover:bg-gray-100 hover:text-blue-700 focus:z-10 focus:ring-4 focus:ring-gray-100">Não, cancelar</button>
+          </div>
+      </div>
+  </div>
+</div>
+
+<div id="popup-modal-disaprove" tabindex="-1" class="hidden fixed inset-0 z-50 flex justify-center items-center">
+  <div class="relative p-4 w-full max-w-md max-h-full">
+      <div class="relative border-2 bg-white rounded-lg shadow">
+          <button (click)="closeDisaproveModal()" type="button" class="absolute top-3 right-2.5 text-gray-400 bg-transparent hover:bg-gray-200 hover:text-gray-900 rounded-lg text-sm w-8 h-8 ms-auto inline-flex justify-center items-center" data-modal-hide="popup-modal">
+              <svg class="w-3 h-3" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 14 14">
+                  <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="m1 1 6 6m0 0 6 6M7 7l6-6M7 7l-6 6"/>
+              </svg>
+              <span class="sr-only">Fechar Modal</span>
+          </button>
+          <div class="p-4 md:p-5">
+            <div class="my-4">
+              <label for="inputJustificativa" class="block text-sm font-medium text-gray-700">Justificativa (opcional):</label>
+              <textarea id="inputJustificativa" name="inputJustificativa" rows="5" class="mt-1 p-2 focus:ring-blue-500 focus:border-blue-500 block w-full shadow-sm sm:text-sm border border-gray-300 rounded-md" required></textarea>
+            </div>
+            <div class="text-center">
+              <button (click)="confirmarDesaprovamento()" data-modal-hide="popup-modal" type="button" class="text-white bg-red-600 hover:bg-red-800 focus:ring-4 focus:outline-none focus:ring-red-300 font-medium rounded-lg text-sm inline-flex items-center px-5 py-2.5 text-center">
+                  Negar solicitação
+              </button>
+              <button (click)="closeDisaproveModal()" data-modal-hide="popup-modal" type="button" class="py-2.5 px-5 ms-3 text-sm font-medium text-gray-900 focus:outline-none bg-white rounded-lg border border-gray-200 hover:bg-gray-100 hover:text-blue-700 focus:z-10 focus:ring-4 focus:ring-gray-100">Cancelar</button>
+            </div>
+          </div>
+      </div>
+  </div>
+</div>
+
 <app-footer></app-footer>

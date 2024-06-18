@@ -24,7 +24,7 @@ router.put('/', auth, validaProduto, updateProduct);
 
 // Rotas que precisam de permissão de administrador
 router.get('/all', authAdmin, getProducts);
-router.put('/aprove', authAdmin, validaProduto, updateProductStatus);
+router.put('/aprove/:id', authAdmin, validaProduto, updateProductStatus);
 
 
 export default router;
