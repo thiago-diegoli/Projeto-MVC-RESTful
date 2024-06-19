@@ -28,7 +28,7 @@ const doc = {
     }
 }
 
-const outputFile = './swagger/swagger_output.json'
+const outputFile = './api/swagger/swagger_output.json'
 const endpointsFiles = ['./app.js']
 const options = {
     swagger: '2.0',
