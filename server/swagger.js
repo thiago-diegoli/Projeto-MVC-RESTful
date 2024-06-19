@@ -29,14 +29,14 @@ const doc = {
 }
 
 const outputFile = './api/swagger/swagger_output.json'
-const endpointsFiles = ['./app.js']
+const endpointsFiles = ['./api/app.js']
 const options = {
-    swagger: '2.0',
-    language: 'pt-BR',
-    disableLogs: false,
-    disableWarnings: false
+    swagger: '2.0',          // By default is null
+    language: 'pt-BR',         // By default is 'en-US'
+    disableLogs: false,     // By default is false
+    disableWarnings: false  // By default is false
 }
 
 swaggerAutogen(options)(outputFile, endpointsFiles, doc).then(async () => {
-    await import('./app.js');
+    await import('./api/app.js'); // Your project's root file
   });
