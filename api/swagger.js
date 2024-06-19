@@ -6,7 +6,7 @@ const doc = {
         version: "1.0.0",
         title: "API Compras Fatec Votorantim"
     },
-    // host: 'link.vercel.app',
+    host: 'projeto-mvc-restful-server.vercel.app',
     basePath: "/",
     schemes: ['https'],
     consumes: ['application/json'],
