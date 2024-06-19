@@ -1,0 +1,11 @@
+{
+    "version": 2,
+    "functions": {
+        "app.js": {
+            "includeFiles": "swagger/swagger_output.json"
+        }
+    },
+    "routes": [
+        { "src": "/(.*)", "dest": "/app.js" }
+    ]
+}

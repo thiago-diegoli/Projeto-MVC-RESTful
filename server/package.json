@@ -2,13 +2,13 @@
   "name": "projetomvcrestful",
   "version": "1.0.0",
   "description": "Projeto Interdisciplinar MVC RESTful da Fatec",
-  "main": "api/app.js",
+  "main": "app.js",
   "type": "module",
   "scripts": {
     "doc": "node swagger.js",
     "test": "jest",
-    "start": "node api/app.js",
-    "dev": "nodemon api/app.js"
+    "start": "node app.js",
+    "dev": "nodemon app.js"
   },
   "keywords": [
     "MVC",

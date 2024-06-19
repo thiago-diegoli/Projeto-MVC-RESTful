@@ -25,6 +25,20 @@
     "application/json"
   ],
   "paths": {
+    "/": {
+      "get": {
+        "tags": [
+          "Default"
+        ],
+        "summary": "Rota default que retorna a versão da API",
+        "description": "Endpoint que retorna a versão da API",
+        "responses": {
+          "200": {
+            "description": "OK"
+          }
+        }
+      }
+    },
     "/api/logins/cadastro": {
       "post": {
         "description": "",
