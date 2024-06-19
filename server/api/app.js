@@ -26,6 +26,20 @@ app.use(bodyParser.urlencoded({ extended: true }));
 app.use(express.static('public'));
 
 // Rotas
+app.get('/api', (req, res)=> {
+  /* 
+ * #swagger.tags = ['Default']
+ * #swagger.summary = 'Rota default que retorna a versão da API'
+ * #swagger.description = 'Endpoint que retorna a versão da API'    
+ * #swagger.path = '/'
+ * #swagger.method = 'GET'
+ */
+ res.status(200).json({
+     message: 'API Compras FATEC',
+     version: '1.0.0'
+ })
+})
+
 app.use('/api/logins', LoginRoute);
 app.use('/api/products', productRoutes);
 
