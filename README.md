@@ -21,7 +21,7 @@ Clique [aqui](https://github.com/paulovictorio/Documentacao_projetoCompras/tree/
 ## Link da API Pública
 
 Para acessar a API pública do projeto hospedado no Vercel, utilize o seguinte link:
-[Link da API no Vercel](https://seu-projeto.vercel.app/api)
+[Link da API no Vercel](https://projeto-mvc-restful-frontend.vercel.app)
 
 ## 🛠️ Tecnologias Utilizadas 
 <span id="tecnologias">
