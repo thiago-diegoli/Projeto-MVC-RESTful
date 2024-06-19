@@ -9,7 +9,7 @@ import { Observable } from 'rxjs';
 
 export class AuthService {
 
-  private apiUrl = 'http://localhost:4000/api/logins';
+  private apiUrl = 'https://projeto-mvc-restful-server.vercel.app/api/logins';
 
   constructor(private http: HttpClient) { }
 
