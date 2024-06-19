@@ -35,9 +35,5 @@
     "nodemon": "^3.1.1",
     "supertest": "^7.0.0",
     "swagger-autogen": "^2.23.7"
-  },
-  "engines": {
-    "node": "20.x",
-    "npm": "9.x"
   }
 }
