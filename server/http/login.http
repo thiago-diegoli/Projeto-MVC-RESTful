@@ -1,4 +1,4 @@
-@baseURL = http://localhost:4000/api/logins
+@baseURL = https://projeto-mvc-restful-server.vercel.app/api/logins
 
 # Cadastro de um novo usuário comum
 POST {{baseURL}}/cadastro
