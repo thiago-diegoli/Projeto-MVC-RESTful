@@ -7,8 +7,8 @@
   "scripts": {
     "doc": "node swagger.js",
     "test": "jest",
-    "start": "node app.js",
-    "dev": "nodemon app.js"
+    "start": "node api/app.js",
+    "dev": "nodemon api/app.js"
   },
   "keywords": [
     "MVC",

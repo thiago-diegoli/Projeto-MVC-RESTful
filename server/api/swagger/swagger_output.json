@@ -5,7 +5,7 @@
     "title": "API Compras Fatec Votorantim",
     "description": ""
   },
-  "host": "localhost:3000",
+  "host": "projeto-mvc-restful-server.vercel.app",
   "basePath": "/",
   "schemes": [
     "https"
@@ -180,49 +180,6 @@
           },
           "404": {
             "description": "Não Encontrado"
-          },
-          "500": {
-            "description": "Erro Interno do Servidor"
-          }
-        }
-      }
-    },
-    "/api/products/products": {
-      "get": {
-        "description": "",
-        "parameters": [
-          {
-            "name": "dataMin",
-            "in": "query",
-            "type": "string"
-          },
-          {
-            "name": "dataMax",
-            "in": "query",
-            "type": "string"
-          },
-          {
-            "name": "nome",
-            "in": "query",
-            "type": "string"
-          },
-          {
-            "name": "status",
-            "in": "query",
-            "type": "string"
-          },
-          {
-            "name": "userId",
-            "in": "query",
-            "type": "string"
-          }
-        ],
-        "responses": {
-          "200": {
-            "description": "OK"
-          },
-          "400": {
-            "description": "Solicitação Inválida"
           },
           "500": {
             "description": "Erro Interno do Servidor"
