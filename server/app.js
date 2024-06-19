@@ -7,6 +7,7 @@ import productRoutes from './routes/ProductRoute.js';
 import cors from 'cors';
 import fs from 'fs'
 import swaggerUI from 'swagger-ui-express'
+import swaggerFile  from './swagger/swagger_output.json' assert { type: 'json' };
 
 dotenv.config();
 
@@ -46,6 +47,10 @@ app.use('/api/products', productRoutes);
 /* app.use('/api/doc', swaggerUI.serve, swaggerUI.setup(JSON.parse(fs.readFileSync('./swagger/swagger_output.json')),{customCss:
   '.swagger-ui .opblock .opblock-summary-path-description-wrapper { align-items: center; display: flex; flex-wrap: wrap; gap: 0 10px; padding: 0 10px; width: 100%; }',
 customCssUrl: CSS_URL })) */
+
+app.use('/api/doc', swaggerUI.serve, swaggerUI.setup(swaggerFile, {
+  customCssUrl: CSS_URL
+}));
 
 // Iniciar o servidor
 const PORT = process.env.PORT || 4000;
