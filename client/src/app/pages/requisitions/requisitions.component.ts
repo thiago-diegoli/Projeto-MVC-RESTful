@@ -1,4 +1,4 @@
-import { Component, OnInit, ViewChild } from '@angular/core';
+import { Component, OnInit, OnDestroy, ViewChild } from '@angular/core';
 import { SearchBecService } from './../../service/search-bec.service';
 import { ProductsService } from './../../service/products.service';
 import { debounceTime, distinctUntilChanged, switchMap } from 'rxjs/operators';
@@ -11,7 +11,7 @@ import {Title} from "@angular/platform-browser";
   templateUrl: './requisitions.component.html',
   styleUrls: ['./requisitions.component.css']
 })
-export class RequisitionsComponent implements OnInit {
+export class RequisitionsComponent implements OnInit, OnDestroy{
   produtos: string[] = [];
   sugestoes: string[] = [];
   informacoes: { material: string; codigoMaterial: string } | null = null;
@@ -33,6 +33,21 @@ export class RequisitionsComponent implements OnInit {
       data => this.sugestoes = data.d.slice(0, 5),  // Limitar para as primeiras 5 sugestões
       error => console.error('Erro ao buscar produtos:', error)
     );
+
+    document.addEventListener('click', this.handleClickOutside.bind(this));
+  }
+
+  ngOnDestroy(): void {
+    document.removeEventListener('click', this.handleClickOutside.bind(this));
+  }
+
+  handleClickOutside(event: MouseEvent): void {
+    const inputElement = document.getElementById('produtoDesejadoInput');
+    const suggestionsElement = document.querySelector('.suggestions');
+
+    if (inputElement && suggestionsElement && !inputElement.contains(event.target as Node) && !suggestionsElement.contains(event.target as Node)) {
+      this.sugestoes = []; // Esvaziar a lista de sugestões
+    }
   }
 
   search(term: string): void {
@@ -41,7 +56,7 @@ export class RequisitionsComponent implements OnInit {
 
   selectSuggestion(sugestao: string): void {
     const inputElement = document.getElementById('produtoDesejadoInput') as HTMLInputElement;
-    inputElement.value = sugestao;  // Atualizar o input com a sugestão selecionada
+    inputElement.value = sugestao;
     this.produtos.push(sugestao);
     this.sugestoes = [];
   }
@@ -52,11 +67,16 @@ export class RequisitionsComponent implements OnInit {
   }
 
   pesquisarProduto(): void {
-    const descricaoBec = this.produtos[this.produtos.length - 1];
-    this.searchBecService.searchProduct(descricaoBec).subscribe(
-      html => this.handleProductSearch(html),
-      error => console.error('Erro ao buscar produto:', error)
-    );
+    const inputElement = document.getElementById('produtoDesejadoInput') as HTMLInputElement;
+    const descricaoBec = inputElement.value.trim();
+    if (descricaoBec) {
+      this.searchBecService.searchProduct(descricaoBec).subscribe(
+        html => this.handleProductSearch(html),
+        error => console.error('Erro ao buscar produto:', error)
+      );
+    } else {
+      console.error('O campo de pesquisa está vazio.');
+    }
   }
 
   handleProductSearch(html: string): void {

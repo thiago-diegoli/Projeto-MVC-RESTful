@@ -28,7 +28,7 @@
                     </svg>
                   </div>
                   <input (input)="handleInput($event)" class="block w-full p-4 ps-10 text-sm text-gray-900 border border-gray-300 rounded-lg bg-gray-50 focus:ring-blue-500 focus:border-blue-500" type="search" id="produtoDesejadoInput" placeholder="Digite o nome do produto...">
-                  <ul *ngIf="sugestoes.length > 0" class="suggestions">
+                  <ul *ngIf="sugestoes.length > 0" class="absolute top-full left-0 z-10 bg-white border border-gray-300 rounded-lg shadow-md mt-2 w-full suggestions">
                     <li *ngFor="let sugestao of sugestoes" (click)="selectSuggestion(sugestao)">
                       {{ sugestao }}
                     </li>
