@@ -82,7 +82,6 @@ export const updateProduct = async (req, res) => {
   delete req.body._id;
 
   try {
-    const errors = validationResult(req);
     if (!errors.isEmpty()) {
       return res.status(400).json({ errors: errors.array() });
     }

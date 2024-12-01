@@ -1,13 +1,6 @@
 import { check } from 'express-validator';
 import Product from '../models/ProductModel.js';
 
-const allowedTypes = [
-  'material-de-consumo',
-  'material-permanente',
-  'hibrido',
-  'outro'
-];
-
 const allowedCategories = [
   'material-de-escritorio',
   'equipamentos-de-informatica',
@@ -32,8 +25,7 @@ export const validaProduto = [
     .notEmpty().withMessage('É obrigatório informar o nome'),
 
   check('tipo')
-    .notEmpty().withMessage('O tipo é obrigatório')
-    .isIn(allowedTypes).withMessage('O tipo informado é inválido'),
+    .notEmpty().withMessage('O tipo é obrigatório'),
 
   check('quantidade')
     .notEmpty().withMessage('A quantidade é obrigatória')
