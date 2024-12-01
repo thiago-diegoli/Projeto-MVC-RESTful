@@ -82,9 +82,6 @@ export const updateProduct = async (req, res) => {
   delete req.body._id;
 
   try {
-    if (!errors.isEmpty()) {
-      return res.status(400).json({ errors: errors.array() });
-    }
     const product = await Product.findById(idDocumento);
     if (!product) {
       return res.status(404).json({ message: 'Produto não encontrado' });
